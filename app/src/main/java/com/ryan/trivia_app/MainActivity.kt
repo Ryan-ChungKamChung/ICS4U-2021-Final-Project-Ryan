@@ -1,3 +1,9 @@
+/*
+ * Copyright 2022 Ryan Chung Kam Chung
+ *
+ * This is the main activity for the app.
+ */
+
 package com.ryan.trivia_app
 
 import androidx.appcompat.app.AppCompatActivity
