@@ -1,7 +1,7 @@
 package com.ryan.trivia_app
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.ryan.trivia_app.databinding.ActivityGameBinding
 
 class GameActivity : AppCompatActivity() {

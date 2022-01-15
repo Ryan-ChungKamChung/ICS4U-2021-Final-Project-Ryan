@@ -7,10 +7,9 @@
 package com.ryan.trivia_app
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.ryan.trivia_app.databinding.ActivityMainBinding
-
 
 /** MainActivity class. */
 class MainActivity : AppCompatActivity() {
