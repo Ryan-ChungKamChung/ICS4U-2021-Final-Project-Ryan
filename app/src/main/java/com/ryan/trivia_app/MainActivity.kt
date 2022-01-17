@@ -6,8 +6,10 @@
 
 package com.ryan.trivia_app
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.ryan.trivia_app.databinding.ActivityMainBinding
 
 /** MainActivity class. */
 class MainActivity : AppCompatActivity() {
@@ -18,6 +20,11 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.btnStart.setOnClickListener {
+            startActivity(Intent(this, GameActivity::class.java))
+        }
     }
 }
