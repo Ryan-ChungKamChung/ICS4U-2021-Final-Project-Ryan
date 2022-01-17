@@ -16,9 +16,19 @@ import kotlin.random.Random
  * A simple [Fragment] subclass.
  */
 class CategoriesFragment : Fragment() {
+    /** Binding to access XML components. */
     private var _binding: FragmentCategoriesBinding? = null
+    /** Binding getter. */
     private val binding get() = _binding!!
 
+    /**
+     * When the view is created.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the view for binding.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,6 +36,7 @@ class CategoriesFragment : Fragment() {
     ): View {
         _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
 
+        // All possible categories
         val categories = arrayOf(
             "Any Category", "General Knowledge", "Books", "Film", "Music", "Musicals & Theaters",
             "Television", "Video Games", "Board Games", "Science & Nature", "Computers", "Math",
@@ -33,11 +44,14 @@ class CategoriesFragment : Fragment() {
             "Animals", "Vehicles", "Comics", "Gadgets", "Anime & Manga", "Cartoon & Animations"
         )
 
+        // Chooses random categories and sets them on the 4 choice buttons
         binding.btnChoice1.text = categories[Random.nextInt(0, 25)]
         binding.btnChoice2.text = categories[Random.nextInt(0, 25)]
         binding.btnChoice3.text = categories[Random.nextInt(0, 25)]
         binding.btnChoice4.text = categories[Random.nextInt(0, 25)]
 
+        /* onClickListeners for the user's choice of category.
+           Starts the transfer process to the start of the game */
         binding.btnChoice1.setOnClickListener {
             transferToQuizFragment(binding.btnChoice1)
         }
@@ -57,17 +71,24 @@ class CategoriesFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Initiates a transition and replaces the fragment by TriviaFragment.
+     *
+     * @param button the button that was clicked by the user.
+     */
     private fun transferToQuizFragment(button: Button) {
-
+        // Sets chosen button to green
         button.setBackgroundColor(Color.parseColor("#33B16F"))
 
+        // Executes this code 1 second after the button was set to green
         Handler(Looper.getMainLooper()).postDelayed({
+            // Adds the chosen category to the bundle to be sent to TriviaFragment
             val args = Bundle()
             args.putString("category", button.text.toString())
-
             val triviaFragment = TriviaFragment()
             triviaFragment.arguments = args
 
+            // Replaces this fragment with TriviaFragment
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentPlaceholder, triviaFragment)
                 .commit()
