@@ -36,6 +36,8 @@ class CategoriesFragment : Fragment() {
     ): View {
         _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
 
+        // USE THIS INSTEAD
+        // https://opentdb.com/api_category.php
         // All possible categories
         val categories = arrayOf(
             "Any Category", "General Knowledge", "Books", "Film", "Music", "Musicals & Theaters",
