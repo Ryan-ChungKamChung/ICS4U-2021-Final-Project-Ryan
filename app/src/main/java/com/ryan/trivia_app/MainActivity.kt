@@ -38,11 +38,11 @@ class MainActivity : AppCompatActivity() {
         // Removes top and bottom system bars
         window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                    View.SYSTEM_UI_FLAG_FULLSCREEN
+            View.SYSTEM_UI_FLAG_FULLSCREEN
         /* Makes it so user clicks don't bring back the bars.
            Minimum is API 19 so checking isn't needed */
         window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
     }
 }
