@@ -17,7 +17,9 @@ class CallAPI {
      * @return parsed questions and answers.
      */
     fun callTriviaAPI(
-        context: Context, category: String, difficulty: String? = null
+        context: Context,
+        category: String,
+        difficulty: String? = null
     ): ArrayList<TriviaData> {
         // URL to get information from
         val url = "https://opentdb.com/api.php?amount=50"
@@ -26,8 +28,8 @@ class CallAPI {
         // Uses a background thread
         thread {
             // Creates request
-            val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
-                { response ->
+            val jsonObjectRequest = JsonObjectRequest(
+                Request.Method.GET, url, null, { response ->
                     // JSONArray inside of a JSONObject
                     val jsonArray = response.getJSONArray("results")
                     // For every question inside of jsonArray
