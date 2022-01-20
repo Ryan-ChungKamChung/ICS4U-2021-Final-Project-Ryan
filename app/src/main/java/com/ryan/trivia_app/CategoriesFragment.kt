@@ -36,8 +36,14 @@ class CategoriesFragment : Fragment() {
     ): View {
         _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
 
-        // USE THIS INSTEAD
         // https://opentdb.com/api_category.php
+        val categoriesArray = CallAPI().callCategories(requireActivity())
+//        val buttons = arrayOf(binding.btnChoice1, binding.btnChoice2, binding.btnChoice3, binding.btnChoice4)
+//        for (iterator in 0  until buttons.count()) {
+//            val randomNumber = (0..categoriesArray.count()).random()
+//            buttons[iterator].text = categoriesArray[randomNumber].name
+//            categoriesArray.removeAt(randomNumber)
+//        }
         // All possible categories
         val categories = arrayOf(
             "Any Category", "General Knowledge", "Books", "Film", "Music", "Musicals & Theaters",
@@ -46,7 +52,7 @@ class CategoriesFragment : Fragment() {
             "Animals", "Vehicles", "Comics", "Gadgets", "Anime & Manga", "Cartoon & Animations"
         )
 
-        // Chooses random categories and sets them on the 4 choice buttons
+//        // Chooses random categories and sets them on the 4 choice buttons
         binding.btnChoice1.text = categories[Random.nextInt(0, 25)]
         binding.btnChoice2.text = categories[Random.nextInt(0, 25)]
         binding.btnChoice3.text = categories[Random.nextInt(0, 25)]

@@ -68,23 +68,26 @@ class CallAPI {
      * @param context activity/fragment this is being run in.
      * @return id: category ordered hashmap
      */
-    fun callCategories(context: Context): LinkedHashMap<Int, String> {
-        val result = LinkedHashMap<Int, String>()
-        thread {
-            // Creates request
-            val jsonObjectRequest = JsonObjectRequest(
-                Request.Method.GET, "https://opentdb.com/api_category.php", null,
-                { response ->
-                    val jsonArray = response.getJSONArray("trivia_categories")
-                    for (iterator in 0 until jsonArray.length()) {
-                        val jsonObject = jsonArray[iterator] as JSONObject
-                        result[jsonObject.getInt("id")] = jsonObject.getString("name")
-                    }
-                }, {}
-            )
-            // Add request to a queue
-            Volley.newRequestQueue(context).add(jsonObjectRequest)
-        }
+    fun callCategories(context: Context): ArrayList<Categories> {
+        TODO()
+        val result = ArrayList<Categories>()
+        // Creates request
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET, "https://opentdb.com/api_category.php", null,
+            { response ->
+                val jsonArray = response.getJSONArray("trivia_categories")
+                for (iterator in 0 until jsonArray.length()) {
+                    val jsonObject = jsonArray[iterator] as JSONObject
+                    result.add(
+                        Categories(
+                            jsonObject.getInt("id"), jsonObject.getString("name")
+                        )
+                    )
+                }
+            }, {}
+        )
+        // Add request to a queue
+        Volley.newRequestQueue(context).add(jsonObjectRequest)
         return result
     }
 }
