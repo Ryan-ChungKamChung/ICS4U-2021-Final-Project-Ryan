@@ -5,6 +5,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONObject
+import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
 class CallAPI {
@@ -52,6 +53,28 @@ class CallAPI {
                                 else null
                             )
                         )
+                    }
+                }, {}
+            )
+            // Add request to a queue
+            Volley.newRequestQueue(context).add(jsonObjectRequest)
+        }
+        return result
+    }
+
+    fun callCategories(
+        context: Context
+    ): LinkedHashMap<Int, String> {
+        val result = LinkedHashMap<Int, String>()
+        thread {
+            // Creates request
+            val jsonObjectRequest = JsonObjectRequest(
+                Request.Method.GET, "https://opentdb.com/api_category.php",null,
+                { response ->
+                    val jsonArray = response.getJSONArray("trivia_categories")
+                    for (iterator in 0 until jsonArray.length()) {
+                        val jsonObject = jsonArray[iterator] as JSONObject
+                        result[jsonObject.getInt("id")] = jsonObject.getString("name")
                     }
                 }, {}
             )
