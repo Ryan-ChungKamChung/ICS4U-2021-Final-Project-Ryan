@@ -1,5 +1,8 @@
 package com.ryan.trivia_app
 
+import java.net.URL
+import kotlin.concurrent.thread
+import kotlin.random.Random
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -10,9 +13,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.ryan.trivia_app.databinding.FragmentCategoriesBinding
-import java.net.URL
-import kotlin.concurrent.thread
-import kotlin.random.Random
 import org.json.JSONObject
 
 /**
