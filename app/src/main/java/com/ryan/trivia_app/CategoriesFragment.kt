@@ -48,11 +48,8 @@ class CategoriesFragment : Fragment() {
         // API call in background thread
         thread {
             // API call
-            val json = try {
-                URL("https://opentdb.com/api_category.php").readText()
-            } catch (e: Exception) {
-                return@thread
-            }
+            val url = "https://opentdb.com/api_category.php"
+            val json = try { URL(url).readText() } catch (e: Exception) { return@thread }
 
             // JSONArray of categories
             val jsonArray = JSONObject(json).getJSONArray("trivia_categories")
