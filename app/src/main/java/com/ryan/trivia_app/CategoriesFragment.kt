@@ -12,9 +12,8 @@ import androidx.fragment.app.Fragment
 import com.ryan.trivia_app.databinding.FragmentCategoriesBinding
 import java.net.URL
 import kotlin.concurrent.thread
-import kotlinx.serialization.*
-import org.json.JSONObject
 import kotlin.random.Random
+import org.json.JSONObject
 
 /**
  * A simple [Fragment] subclass.
