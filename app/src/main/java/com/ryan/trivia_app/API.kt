@@ -5,10 +5,11 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONObject
+import java.net.URL
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
-class CallAPI {
+class API {
     /**
      * Getting trivia API and returning a parsed version.
      *
@@ -60,5 +61,13 @@ class CallAPI {
             Volley.newRequestQueue(context).add(jsonObjectRequest)
         }
         return result
+    }
+
+    fun request(url: String): String? {
+        return try {
+            URL(url).readText()
+        } catch (e: Exception) {
+            null
+        }
     }
 }
