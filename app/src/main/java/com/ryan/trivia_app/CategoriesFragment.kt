@@ -10,7 +10,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.ryan.trivia_app.databinding.FragmentCategoriesBinding
+import java.net.URL
+import kotlin.concurrent.thread
 import kotlin.random.Random
+import org.json.JSONObject
 
 /**
  * A simple [Fragment] subclass.
@@ -18,6 +21,7 @@ import kotlin.random.Random
 class CategoriesFragment : Fragment() {
     /** Binding to access XML components. */
     private var _binding: FragmentCategoriesBinding? = null
+
     /** Binding getter. */
     private val binding get() = _binding!!
 
@@ -36,38 +40,67 @@ class CategoriesFragment : Fragment() {
     ): View {
         _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
 
-        // USE THIS INSTEAD
-        // https://opentdb.com/api_category.php
-        // All possible categories
-        val categories = arrayOf(
-            "Any Category", "General Knowledge", "Books", "Film", "Music", "Musicals & Theaters",
-            "Television", "Video Games", "Board Games", "Science & Nature", "Computers", "Math",
-            "Mythology", "Sports", "Geography", "History", "Politics", "Art", "Celebrities",
-            "Animals", "Vehicles", "Comics", "Gadgets", "Anime & Manga", "Cartoon & Animations"
-        )
+        // All categories from API
+        val allCategories = ArrayList<Category>()
+        // Used categories from API
+        val usedCategories = ArrayList<Category>()
 
-        // Chooses random categories and sets them on the 4 choice buttons
-        binding.btnChoice1.text = categories[Random.nextInt(0, 25)]
-        binding.btnChoice2.text = categories[Random.nextInt(0, 25)]
-        binding.btnChoice3.text = categories[Random.nextInt(0, 25)]
-        binding.btnChoice4.text = categories[Random.nextInt(0, 25)]
+        // API call in background thread
+        thread {
+            // API call
+            val url = "https://opentdb.com/api_category.php"
+            val json = try { URL(url).readText() } catch (e: Exception) { return@thread }
+
+            // JSONArray of categories
+            val jsonArray = JSONObject(json).getJSONArray("trivia_categories")
+            // Parse loop of JSONObjects inside of JSONArray
+            for (iterator in 0 until jsonArray.length()) {
+                // Name of category
+                val rawName = (jsonArray[iterator] as JSONObject).getString("name")
+                // Filtered name
+                val name = if (rawName.startsWith("Entertainment: ")) {
+                    // Removes "Entertainment: "
+                    rawName.drop(15)
+                } else {
+                    rawName
+                }
+                // Adds id and name
+                allCategories.add(
+                    Category(
+                        (jsonArray[iterator] as JSONObject).getInt("id"),
+                        name
+                    )
+                )
+            }
+
+            // UI thread
+            requireActivity().runOnUiThread {
+                // Array of buttons
+                val allChoiceButtons = arrayOf(
+                    binding.btnChoice1, binding.btnChoice2, binding.btnChoice3, binding.btnChoice4
+                )
+                // Binds text to buttons
+                for (iterator in 0 until allChoiceButtons.count()) {
+                    val randomNumber = Random.nextInt(0, allCategories.count())
+                    allChoiceButtons[iterator].text = allCategories[randomNumber].name
+                    usedCategories.add(allCategories[randomNumber])
+                }
+            }
+        }
 
         /* onClickListeners for the user's choice of category.
            Starts the transfer process to the start of the game */
         binding.btnChoice1.setOnClickListener {
-            transferToQuizFragment(binding.btnChoice1)
+            transferToQuizFragment(binding.btnChoice1, usedCategories[0])
         }
-
         binding.btnChoice2.setOnClickListener {
-            transferToQuizFragment(binding.btnChoice2)
+            transferToQuizFragment(binding.btnChoice2, usedCategories[1])
         }
-
         binding.btnChoice3.setOnClickListener {
-            transferToQuizFragment(binding.btnChoice3)
+            transferToQuizFragment(binding.btnChoice3, usedCategories[2])
         }
-
         binding.btnChoice4.setOnClickListener {
-            transferToQuizFragment(binding.btnChoice4)
+            transferToQuizFragment(binding.btnChoice4, usedCategories[3])
         }
 
         return binding.root
@@ -78,7 +111,7 @@ class CategoriesFragment : Fragment() {
      *
      * @param button the button that was clicked by the user.
      */
-    private fun transferToQuizFragment(button: Button) {
+    private fun transferToQuizFragment(button: Button, category: Category) {
         // Sets chosen button to green
         button.setBackgroundColor(Color.parseColor("#33B16F"))
 
@@ -86,7 +119,7 @@ class CategoriesFragment : Fragment() {
         Handler(Looper.getMainLooper()).postDelayed({
             // Adds the chosen category to the bundle to be sent to TriviaFragment
             val args = Bundle()
-            args.putString("category", button.text.toString())
+            args.putParcelable("category", category)
             val triviaFragment = TriviaFragment()
             triviaFragment.arguments = args
 

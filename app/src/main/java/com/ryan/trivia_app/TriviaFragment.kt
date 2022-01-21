@@ -30,9 +30,9 @@ class TriviaFragment : Fragment() {
         _binding = FragmentTriviaBinding.inflate(inflater, container, false)
 
         // Gets the passed data from CategoriesFragment
-        val value = requireArguments().getString("category")
+        val value = requireArguments().getParcelable<Category>("category")
         // Sets the category as the top bar
-        binding.txtCategory.text = value
+        binding.txtCategory.text = value!!.name
 
         return binding.root
     }
