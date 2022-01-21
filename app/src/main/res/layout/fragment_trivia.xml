@@ -13,6 +13,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="40sp" />
+        android:textSize="30sp" />
 
 </LinearLayout>
