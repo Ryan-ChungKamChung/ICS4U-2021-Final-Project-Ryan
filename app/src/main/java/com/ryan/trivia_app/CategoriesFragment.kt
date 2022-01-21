@@ -1,6 +1,7 @@
 package com.ryan.trivia_app
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -14,8 +15,6 @@ import com.ryan.trivia_app.databinding.FragmentCategoriesBinding
 import kotlin.concurrent.thread
 import kotlin.random.Random
 import org.json.JSONObject
-import android.content.Intent
-
 
 /**
  * A simple [Fragment] subclass.
@@ -96,7 +95,7 @@ class CategoriesFragment : Fragment() {
                     Intent(activity, MainActivity::class.java).putExtra(
                         "error",
                         "Something went wrong. Please check your internet connection" +
-                                " and try again shortly."
+                            " and try again shortly."
                     )
                 )
                 (context as Activity).overridePendingTransition(0, 0)
