@@ -40,27 +40,34 @@ class CategoriesFragment : Fragment() {
     ): View {
         _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
 
+        // All categories from API
         val allCategories = ArrayList<Category>()
+        // Used categories from API
         val usedCategories = ArrayList<Category>()
-        val allChoiceButtons = arrayOf(
-            binding.btnChoice1, binding.btnChoice2, binding.btnChoice3, binding.btnChoice4
-        )
 
+        // API call in background thread
         thread {
+            // API call
             val json = try {
                 URL("https://opentdb.com/api_category.php").readText()
             } catch (e: Exception) {
                 return@thread
             }
 
+            // JSONArray of categories
             val jsonArray = JSONObject(json).getJSONArray("trivia_categories")
+            // Parse loop of JSONObjects inside of JSONArray
             for (iterator in 0 until jsonArray.length()) {
+                // Name of category
                 val rawName = (jsonArray[iterator] as JSONObject).getString("name")
-                val name = if (rawName.startsWith("Entertainment:")) {
+                // Filtered name
+                val name = if (rawName.startsWith("Entertainment: ")) {
+                    // Removes "Entertainment: "
                     rawName.drop(15)
                 } else {
                     rawName
                 }
+                // Adds id and name
                 allCategories.add(
                     Category(
                         (jsonArray[iterator] as JSONObject).getInt("id"),
@@ -69,7 +76,13 @@ class CategoriesFragment : Fragment() {
                 )
             }
 
+            // UI thread
             requireActivity().runOnUiThread {
+                // Array of buttons
+                val allChoiceButtons = arrayOf(
+                    binding.btnChoice1, binding.btnChoice2, binding.btnChoice3, binding.btnChoice4
+                )
+                // Binds text to buttons
                 for (iterator in 0 until allChoiceButtons.count()) {
                     val randomNumber = Random.nextInt(0, allCategories.count())
                     allChoiceButtons[iterator].text = allCategories[randomNumber].name
