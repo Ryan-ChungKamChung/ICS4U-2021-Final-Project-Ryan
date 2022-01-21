@@ -1,7 +1,6 @@
 package com.ryan.trivia_app
 
-data class TriviaData(
-    val category: String,
+data class Question(
     val question: String,
     val rightAnswer: String,
     val wrongAnswer1: String,

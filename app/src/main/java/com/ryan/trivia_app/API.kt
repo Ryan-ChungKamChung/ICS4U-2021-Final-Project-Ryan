@@ -22,11 +22,11 @@ class API {
         context: Context,
         category: String,
         difficulty: String? = null
-    ): ArrayList<TriviaData> {
+    ): ArrayList<Question> {
         // URL to get information from
         val url = "https://opentdb.com/api.php?amount=50"
         // Parsed ArrayList of questions and answers
-        val result = ArrayList<TriviaData>()
+        val result = ArrayList<Question>()
         // Uses a background thread
         thread {
             // Creates request
@@ -43,7 +43,7 @@ class API {
                         /* Parses the JSONObject and adds the data to a TriviaData object
                            Adds the TriviaData object to the array to be sent to the View. */
                         result.add(
-                            TriviaData(
+                            Question(
                                 jsonObject.getString("category"),
                                 jsonObject.getString("question"),
                                 jsonObject.getString("correct_answer"),
