@@ -56,10 +56,16 @@ class CategoriesFragment : Fragment() {
 
             val jsonArray = JSONObject(json).getJSONArray("trivia_categories")
             for (iterator in 0 until jsonArray.length()) {
+                val rawName = (jsonArray[iterator] as JSONObject).getString("name")
+                val name = if (rawName.startsWith("Entertainment:")) {
+                    rawName.drop(15)
+                } else {
+                    rawName
+                }
                 allCategories.add(
                     Category(
                         (jsonArray[iterator] as JSONObject).getInt("id"),
-                        (jsonArray[iterator] as JSONObject).getString("name")
+                        name
                     )
                 )
             }
