@@ -1,7 +1,7 @@
 package com.ryan.trivia_app
 
-import android.graphics.Color
 import android.os.Bundle
+import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
