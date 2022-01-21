@@ -15,7 +15,6 @@ import kotlin.concurrent.thread
 import kotlin.random.Random
 import org.json.JSONObject
 
-
 /**
  * A simple [Fragment] subclass.
  */
