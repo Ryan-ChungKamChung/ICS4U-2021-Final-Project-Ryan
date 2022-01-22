@@ -50,29 +50,29 @@ class CategoriesFragment : Fragment() {
                 // UI thread
                 requireActivity().runOnUiThread {
                     // Array of buttons
-                    val allChoiceButtons = arrayOf(
+                    val buttons = arrayOf(
                         binding.btnChoice1, binding.btnChoice2,
                         binding.btnChoice3, binding.btnChoice4
                     )
                     // Binds text to buttons
-                    for (iterator in allChoiceButtons.indices) {
-                        allChoiceButtons[iterator].text = categories[iterator].name
+                    for (iterator in buttons.indices) {
+                        buttons[iterator].text = categories[iterator].name
                     }
 
                     /* onClickListeners for the user's choice of category.
                         Starts the transfer process to the start of the game */
                     var transferred = false
-                    binding.btnChoice1.setOnClickListener {
-                        transferred = toGame(binding.btnChoice1, categories[0], transferred)
+                    buttons[0].setOnClickListener {
+                        transferred = toGame(it as Button, categories[0], transferred)
                     }
-                    binding.btnChoice2.setOnClickListener {
-                        transferred = toGame(binding.btnChoice2, categories[1], transferred)
+                    buttons[1].setOnClickListener {
+                        transferred = toGame(it as Button, categories[1], transferred)
                     }
-                    binding.btnChoice3.setOnClickListener {
-                        transferred = toGame(binding.btnChoice3, categories[2], transferred)
+                    buttons[2].setOnClickListener {
+                        transferred = toGame(it as Button, categories[2], transferred)
                     }
-                    binding.btnChoice4.setOnClickListener {
-                        transferred = toGame(binding.btnChoice4, categories[3], transferred)
+                    buttons[3].setOnClickListener {
+                        transferred = toGame(it as Button, categories[3], transferred)
                     }
                 }
             } else {
