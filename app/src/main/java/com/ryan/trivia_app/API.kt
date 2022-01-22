@@ -48,7 +48,7 @@ class API {
         }
 
         // Random numbers
-        val randomList = (0..allCategories.size).shuffled().take(4)
+        val randomList = (0 until allCategories.size).shuffled().take(4)
         for (randNum : Int in randomList) {
             usedCategories.add(allCategories[randNum])
         }

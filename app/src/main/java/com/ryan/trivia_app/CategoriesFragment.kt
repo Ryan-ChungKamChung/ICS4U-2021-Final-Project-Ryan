@@ -62,16 +62,16 @@ class CategoriesFragment : Fragment() {
                     /* onClickListeners for the user's choice of category.
                         Starts the transfer process to the start of the game */
                     binding.btnChoice1.setOnClickListener {
-                        transferToQuizFragment(binding.btnChoice1, usedCategories[0])
+                            toGame(binding.btnChoice1, usedCategories[0])
                     }
                     binding.btnChoice2.setOnClickListener {
-                        transferToQuizFragment(binding.btnChoice2, usedCategories[1])
+                            toGame(binding.btnChoice2, usedCategories[1])
                     }
                     binding.btnChoice3.setOnClickListener {
-                        transferToQuizFragment(binding.btnChoice3, usedCategories[2])
+                            toGame(binding.btnChoice3, usedCategories[2])
                     }
                     binding.btnChoice4.setOnClickListener {
-                        transferToQuizFragment(binding.btnChoice4, usedCategories[3])
+                            toGame(binding.btnChoice4, usedCategories[3])
                     }
                 }
             } else {
@@ -89,16 +89,16 @@ class CategoriesFragment : Fragment() {
      *
      * @param button the button that was clicked by the user.
      */
-    private fun transferToQuizFragment(button: Button, category: Category) {
+    private fun toGame(button: Button, category: Category) {
         // Sets chosen button to green
         button.setBackgroundColor(Color.parseColor("#33B16F"))
 
         // Executes this code 1 second after the button was set to green
         Handler(Looper.getMainLooper()).postDelayed({
             // Adds the chosen category to the bundle to be sent to TriviaFragment
+            val triviaFragment = TriviaFragment()
             val args = Bundle()
             args.putParcelable("category", category)
-            val triviaFragment = TriviaFragment()
             triviaFragment.arguments = args
 
             // Replaces this fragment with TriviaFragment
