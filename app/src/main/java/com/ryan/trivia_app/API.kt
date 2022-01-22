@@ -1,73 +1,72 @@
 package com.ryan.trivia_app
 
-import android.content.Context
-import com.android.volley.Request
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
-import org.json.JSONObject
+import android.app.Activity
+import android.content.Intent
 import java.net.URL
-import kotlin.collections.ArrayList
-import kotlin.concurrent.thread
+import org.json.JSONObject
 
+/** API-related class. */
 class API {
     /**
-     * Getting trivia API and returning a parsed version.
+     * Get request to a URL.
      *
-     * @param context activity/fragment this is being run in.
-     * @param category category of questions.
-     * @param difficulty difficulty of the questions.
-     * @return parsed questions and answers.
+     * @param url to make a GET request
+     * @return JSON as String or null
      */
-    fun callTriviaAPI(
-        context: Context,
-        category: String,
-        difficulty: String? = null
-    ): ArrayList<Question> {
-        // URL to get information from
-        val url = "https://opentdb.com/api.php?amount=50"
-        // Parsed ArrayList of questions and answers
-        val result = ArrayList<Question>()
-        // Uses a background thread
-        thread {
-            // Creates request
-            val jsonObjectRequest = JsonObjectRequest(
-                Request.Method.GET, url, null, { response ->
-                    // JSONArray inside of a JSONObject
-                    val jsonArray = response.getJSONArray("results")
-                    // For every question inside of jsonArray
-                    for (iterator in 0 until jsonArray.length()) {
-                        // Singular JSONObject
-                        val jsonObject = jsonArray[iterator] as JSONObject
-                        // Whether the question is multiple choice or not
-                        val multipleChoice = jsonObject.getString("type") == "multiple"
-                        /* Parses the JSONObject and adds the data to a TriviaData object
-                           Adds the TriviaData object to the array to be sent to the View. */
-                        result.add(
-                            Question(
-                                jsonObject.getString("category"),
-                                jsonObject.getString("question"),
-                                jsonObject.getString("correct_answer"),
-                                jsonObject.getString("incorrect_answers"),
-                                if (multipleChoice) jsonObject.getString("incorrect_answers")
-                                else null,
-                                if (multipleChoice) jsonObject.getString("incorrect_answers")
-                                else null
-                            )
-                        )
-                    }
-                }, {}
-            )
-            // Add request to a queue
-            Volley.newRequestQueue(context).add(jsonObjectRequest)
-        }
-        return result
-    }
-
     fun request(url: String): String? {
         return try {
             URL(url).readText()
         } catch (e: Exception) {
             null
         }
+    }
+
+    /**
+     * Parses categories API response.
+     *
+     * @param json as String
+     * @return Categories
+     */
+    fun parseCategories(json: String): ArrayList<Category> {
+        // All categories from API
+        val allCategories = ArrayList<Category>()
+        // Used categories from API
+        val usedCategories = ArrayList<Category>()
+        // JSONArray of categories
+        val jsonArray = JSONObject(json).getJSONArray("trivia_categories")
+        // Parse loop of JSONObjects inside of JSONArray
+        for (iterator in 0 until jsonArray.length()) {
+            // Name of category
+            val name = (jsonArray[iterator] as JSONObject).getString("name")
+            // Adds id and name
+            allCategories.add(
+                Category(
+                    (jsonArray[iterator] as JSONObject).getInt("id"),
+                    if (name.startsWith("Entertainment: ")) name.drop(15) else name
+                )
+            )
+        }
+
+        // Random numbers
+        val randomList = (0..allCategories.size).shuffled().take(4)
+        for (randNum : Int in randomList) {
+            usedCategories.add(allCategories[randNum])
+        }
+
+        return usedCategories
+    }
+
+    /**
+     * Returns a reusable Intent for internet connection issues.
+     *
+     * @param activity that the fragment is in
+     * @return intent
+     */
+    fun internetError(activity: Activity): Intent {
+        return Intent(activity, MainActivity::class.java).putExtra(
+            "error",
+            "Something went wrong. Please check your internet connection" +
+                    " and try again shortly."
+        )
     }
 }
