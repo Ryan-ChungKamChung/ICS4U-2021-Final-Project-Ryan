@@ -46,7 +46,7 @@ class CategoriesFragment : Fragment() {
             // Makes sure the app doesn't crash due to internet connection
             // missing, or parsing issues
             if (json != null) {
-                val usedCategories = api.parseCategories(json)
+                val categories = api.parseCategories(json)
                 // UI thread
                 requireActivity().runOnUiThread {
                     // Array of buttons
@@ -56,22 +56,23 @@ class CategoriesFragment : Fragment() {
                     )
                     // Binds text to buttons
                     for (iterator in allChoiceButtons.indices) {
-                        allChoiceButtons[iterator].text = usedCategories[iterator].name
+                        allChoiceButtons[iterator].text = categories[iterator].name
                     }
 
                     /* onClickListeners for the user's choice of category.
                         Starts the transfer process to the start of the game */
+                    var transferred = false
                     binding.btnChoice1.setOnClickListener {
-                            toGame(binding.btnChoice1, usedCategories[0])
+                        transferred = toGame(binding.btnChoice1, categories[0], transferred)
                     }
                     binding.btnChoice2.setOnClickListener {
-                            toGame(binding.btnChoice2, usedCategories[1])
+                        transferred = toGame(binding.btnChoice2, categories[1], transferred)
                     }
                     binding.btnChoice3.setOnClickListener {
-                            toGame(binding.btnChoice3, usedCategories[2])
+                        transferred = toGame(binding.btnChoice3, categories[2], transferred)
                     }
                     binding.btnChoice4.setOnClickListener {
-                            toGame(binding.btnChoice4, usedCategories[3])
+                        transferred = toGame(binding.btnChoice4, categories[3], transferred)
                     }
                 }
             } else {
@@ -89,22 +90,26 @@ class CategoriesFragment : Fragment() {
      *
      * @param button the button that was clicked by the user.
      */
-    private fun toGame(button: Button, category: Category) {
+    private fun toGame(button: Button, category: Category, transferred: Boolean): Boolean {
         // Sets chosen button to green
         button.setBackgroundColor(Color.parseColor("#33B16F"))
 
-        // Executes this code 1 second after the button was set to green
-        Handler(Looper.getMainLooper()).postDelayed({
-            // Adds the chosen category to the bundle to be sent to TriviaFragment
-            val triviaFragment = TriviaFragment()
-            val args = Bundle()
-            args.putParcelable("category", category)
-            triviaFragment.arguments = args
+        if (!transferred) {
+            // Executes this code 1 second after the button was set to green
+            Handler(Looper.getMainLooper()).postDelayed({
+                // Adds the chosen category to the bundle to be sent to TriviaFragment
+                val triviaFragment = TriviaFragment()
+                val args = Bundle()
+                args.putParcelable("category", category)
+                triviaFragment.arguments = args
 
-            // Replaces this fragment with TriviaFragment
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentPlaceholder, triviaFragment)
-                .commit()
-        }, 1000)
+                // Replaces this fragment with TriviaFragment
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentPlaceholder, triviaFragment)
+                    .commitAllowingStateLoss()
+            }, 1000)
+        }
+
+        return true
     }
 }

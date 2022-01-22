@@ -49,7 +49,7 @@ class API {
 
         // Random numbers
         val randomList = (0 until allCategories.size).shuffled().take(4)
-        for (randNum : Int in randomList) {
+        for (randNum: Int in randomList) {
             usedCategories.add(allCategories[randNum])
         }
 
@@ -66,7 +66,7 @@ class API {
         return Intent(activity, MainActivity::class.java).putExtra(
             "error",
             "Something went wrong. Please check your internet connection" +
-                    " and try again shortly."
+                " and try again shortly."
         )
     }
 }
