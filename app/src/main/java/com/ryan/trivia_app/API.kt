@@ -119,7 +119,7 @@ class API {
      */
     @Suppress("DEPRECATION")
     private fun htmlToString(text: String): String = if (Build.VERSION.SDK_INT >= 24) {
-        Html.fromHtml(text , Html.FROM_HTML_MODE_LEGACY).toString()
+        Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY).toString()
     } else {
         Html.fromHtml(text).toString()
     }
