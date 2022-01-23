@@ -3,6 +3,8 @@ package com.ryan.trivia_app
 import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,27 +49,69 @@ class TriviaFragment : Fragment() {
                 requireActivity().runOnUiThread {
                     val questionsArray = API().parseQuestions(json)
                     var lives = 3
-                        bindToView(binding, questionsArray[0])
-                        binding.btnAnswer1.setOnClickListener {
-                            if (!chosenAnswer(binding, it as Button, questionsArray[0])) {
+                    var question = 0
+                    var transferred = false
+                    bindToView(binding, questionsArray[question])
+                    binding.btnAnswer1.setOnClickListener {
+                        if (question == 49) {
+                            transferred = true
+                            startActivity(API().internetError(requireActivity()))
+                        }
+                        if (!newQuestion(binding, it as Button, questionsArray[question++])
+                            && !transferred
+                        ) {
+                            if (lives > 0) {
                                 lives--
+                            } else {
+                                API().internetError(requireActivity())
                             }
                         }
-                        binding.btnAnswer2.setOnClickListener {
-                            if (!chosenAnswer(binding, it as Button, questionsArray[0])) {
+                    }
+                    binding.btnAnswer2.setOnClickListener {
+                        if (question == 49) {
+                            transferred = true
+                            startActivity(API().internetError(requireActivity()))
+                        }
+                        if (!newQuestion(binding, it as Button, questionsArray[question++])
+                            && !transferred
+                        ) {
+                            if (lives > 0) {
                                 lives--
+                            } else {
+                                API().internetError(requireActivity())
                             }
                         }
-                        binding.btnAnswer3.setOnClickListener {
-                            if (!chosenAnswer(binding, it as Button, questionsArray[0])) {
+                    }
+                    binding.btnAnswer3.setOnClickListener {
+                        if (question == 49) {
+                            transferred = true
+                            startActivity(API().internetError(requireActivity()))
+                        }
+                        if (!newQuestion(binding, it as Button, questionsArray[question++])
+                            && !transferred
+                        ) {
+                            if (lives > 0) {
                                 lives--
+                            } else {
+                                API().internetError(requireActivity())
                             }
                         }
-                        binding.btnAnswer4.setOnClickListener {
-                            if (!chosenAnswer(binding, it as Button, questionsArray[0])) {
+                    }
+                    binding.btnAnswer4.setOnClickListener {
+                        if (question == 49) {
+                            transferred = true
+                            startActivity(API().internetError(requireActivity()))
+                        }
+                        if (!newQuestion(binding, it as Button, questionsArray[question++])
+                            && !transferred
+                        ) {
+                            if (lives > 0) {
                                 lives--
+                            } else {
+                                API().internetError(requireActivity())
                             }
                         }
+                    }
                 }
             } else {
                 // Goes back to main and shows a Toast
@@ -77,6 +121,15 @@ class TriviaFragment : Fragment() {
         }
         return binding.root
     }
+
+//    fun onButtonPress(view: View) {
+//        when (view) {
+//            binding.btnAnswer1 ->
+//            binding.btnAnswer2 ->
+//            binding.btnAnswer3 ->
+//            binding.btnAnswer4 ->
+//        }
+//    }
 
     /**
      * Binds question-relevant text to the View.
@@ -107,17 +160,33 @@ class TriviaFragment : Fragment() {
         val buttons = arrayOf(
             binding.btnAnswer1, binding.btnAnswer2, binding.btnAnswer3, binding.btnAnswer4
         )
-        val userCorrect = button.text == question.rightAnswer
-        if (!userCorrect) {
-            button.setBackgroundColor(Color.parseColor("#D84761"))
-        }
-
         for (buttonElement: Button in buttons) {
             if (buttonElement.text == question.rightAnswer) {
                 buttonElement.setBackgroundColor(Color.parseColor("#33B16F"))
             }
         }
+        if (!isCorrect(button, question)) {
+            button.setBackgroundColor(Color.parseColor("#D84761"))
+        }
+        return isCorrect(button, question)
+    }
 
+    private fun isCorrect(button: Button, question: Question): Boolean =
+        button.text == question.rightAnswer
+
+    private fun newQuestion(
+        binding: FragmentTriviaBinding,
+        button: Button,
+        question: Question
+    ): Boolean {
+        val userCorrect = chosenAnswer(binding, button, question)
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.btnAnswer1.setBackgroundColor(Color.parseColor("#F5F5F5"))
+            binding.btnAnswer2.setBackgroundColor(Color.parseColor("#F5F5F5"))
+            binding.btnAnswer3.setBackgroundColor(Color.parseColor("#F5F5F5"))
+            binding.btnAnswer4.setBackgroundColor(Color.parseColor("#F5F5F5"))
+            bindToView(binding, question)
+        }, 1000)
         return userCorrect
     }
 }
