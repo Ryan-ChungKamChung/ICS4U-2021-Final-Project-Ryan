@@ -31,13 +31,11 @@
             android:layout_marginStart="30dp"
             android:layout_marginBottom="15dp"
             android:backgroundTint="#F5F5F5"
-            android:onClick="onButtonPress"
             android:textColor="@color/black" />
-        <Space
+        <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
-
         <Button
             android:id="@+id/btnAnswer2"
             android:layout_width="150dp"
@@ -45,7 +43,6 @@
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="15dp"
             android:backgroundTint="#F5F5F5"
-            android:onClick="onButtonPress"
             android:textColor="@color/black" />
     </LinearLayout>
 
@@ -59,20 +56,17 @@
             android:layout_height="125dp"
             android:layout_marginStart="30dp"
             android:backgroundTint="#F5F5F5"
-            android:onClick="onButtonPress"
             android:textColor="@color/black" />
-        <Space
+        <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
-
         <Button
             android:id="@+id/btnAnswer4"
             android:layout_width="150dp"
             android:layout_height="125dp"
             android:layout_marginEnd="30dp"
             android:backgroundTint="#F5F5F5"
-            android:onClick="onButtonPress"
             android:textColor="@color/black" />
 
     </LinearLayout>
