@@ -56,6 +56,7 @@ class TriviaFragment : Fragment() {
 
                     var questionCount = 0
                     var question = questionsArray[questionCount]
+                    var lives = 3
 
                     var answered = false
 
@@ -70,7 +71,13 @@ class TriviaFragment : Fragment() {
                                 startActivity(API().internetError(requireActivity()))
                             }
                             if (!answered) {
-                                val isCorrect = isCorrect(it, question.rightAnswer)
+                                val isCorrect = it.text == question.rightAnswer
+                                if (!isCorrect) {
+                                    --lives
+                                    if (lives == 0) {
+                                        startActivity(API().internetError(requireActivity()))
+                                    }
+                                }
                                 showAnswers(binding, it, question.rightAnswer, isCorrect)
                                 answered = true
                                 question = questionsArray[++questionCount]
@@ -124,9 +131,6 @@ class TriviaFragment : Fragment() {
         }
     }
 
-    private fun isCorrect(button: Button, rightAnswer: String): Boolean =
-        button.text == rightAnswer
-
     private fun newQuestion(
         binding: FragmentTriviaBinding,
         question: Question,
@@ -141,5 +145,9 @@ class TriviaFragment : Fragment() {
                 showQuestion(binding, question)
             }, 1000)
         }
+    }
+
+    private fun showEndOfGame(binding: FragmentTriviaBinding) {
+        binding.endOfGame.visibility = View.VISIBLE
     }
 }
