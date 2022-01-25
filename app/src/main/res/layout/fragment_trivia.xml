@@ -15,4 +15,59 @@
         android:textColor="@color/white"
         android:textSize="30sp" />
 
+    <TextView
+        android:id="@+id/txtQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnAnswer1"
+            android:layout_width="150dp"
+            android:layout_height="125dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="#F5F5F5"
+            android:textColor="@color/black" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <Button
+            android:id="@+id/btnAnswer2"
+            android:layout_width="150dp"
+            android:layout_height="125dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="#F5F5F5"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnAnswer3"
+            android:layout_width="150dp"
+            android:layout_height="125dp"
+            android:layout_marginStart="30dp"
+            android:backgroundTint="#F5F5F5"
+            android:textColor="@color/black" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <Button
+            android:id="@+id/btnAnswer4"
+            android:layout_width="150dp"
+            android:layout_height="125dp"
+            android:layout_marginEnd="30dp"
+            android:backgroundTint="#F5F5F5"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
 </LinearLayout>

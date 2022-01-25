@@ -9,6 +9,7 @@ package com.ryan.trivia_app
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ryan.trivia_app.databinding.ActivityMainBinding
 
@@ -23,6 +24,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //  Gets error messages from other activities
+        val extras = intent.extras
+        if (extras != null) {
+            Toast.makeText(this, extras.getString("error"), Toast.LENGTH_LONG).show()
+        }
 
         // onClickListener to start the game
         binding.btnStart.setOnClickListener {
