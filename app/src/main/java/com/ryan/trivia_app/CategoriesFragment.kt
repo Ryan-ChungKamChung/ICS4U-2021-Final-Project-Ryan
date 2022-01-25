@@ -59,20 +59,12 @@ class CategoriesFragment : Fragment() {
                         buttons[iterator].text = categories[iterator].name
                     }
 
-                    /* onClickListeners for the user's choice of category.
-                        Starts the transfer process to the start of the game */
                     var transferred = false
-                    buttons[0].setOnClickListener {
-                        transferred = toGame(it as Button, categories[0], transferred)
-                    }
-                    buttons[1].setOnClickListener {
-                        transferred = toGame(it as Button, categories[1], transferred)
-                    }
-                    buttons[2].setOnClickListener {
-                        transferred = toGame(it as Button, categories[2], transferred)
-                    }
-                    buttons[3].setOnClickListener {
-                        transferred = toGame(it as Button, categories[3], transferred)
+                    buttons.forEach { it ->
+                        it.setOnClickListener {
+                            toGame(it as Button, categories[0], transferred)
+                            transferred = true
+                        }
                     }
                 }
             } else {
@@ -90,7 +82,7 @@ class CategoriesFragment : Fragment() {
      *
      * @param button the button that was clicked by the user.
      */
-    private fun toGame(button: Button, category: Category, transferred: Boolean): Boolean {
+    private fun toGame(button: Button, category: Category, transferred: Boolean) {
         // Sets chosen button to green
         button.setBackgroundColor(Color.parseColor("#33B16F"))
 
@@ -109,7 +101,5 @@ class CategoriesFragment : Fragment() {
                     .commitAllowingStateLoss()
             }, 1000)
         }
-
-        return true
     }
 }
