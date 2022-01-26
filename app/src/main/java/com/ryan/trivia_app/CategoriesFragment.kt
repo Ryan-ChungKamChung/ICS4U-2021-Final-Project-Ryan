@@ -23,26 +23,16 @@ class CategoriesFragment : Fragment() {
     /** Binding getter. */
     private val binding get() = _binding!!
 
-    /**
-     * When the view is created.
-     *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return the view for binding.
-     */
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
         // API call in background thread
         thread {
             // API class
             val api = API()
             // API call
             val json = api.request("https://opentdb.com/api_category.php")
+            println(json)
             // Makes sure the app doesn't crash due to internet connection
             // missing, or parsing issues
             if (json != null) {
@@ -73,7 +63,22 @@ class CategoriesFragment : Fragment() {
                 (context as Activity).overridePendingTransition(0, 0)
             }
         }
+    }
 
+    /**
+     * When the view is created.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the view for binding.
+     */
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -98,7 +103,7 @@ class CategoriesFragment : Fragment() {
                 // Replaces this fragment with TriviaFragment
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragmentPlaceholder, triviaFragment)
-                    .commitAllowingStateLoss()
+                    .commit()
             }, 1000)
         }
     }
