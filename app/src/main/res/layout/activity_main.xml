@@ -1,48 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="20dp"
         android:gravity="center"
+        android:radius="20dp"
         android:text="@string/triviafun"
         android:textColor="#858585"
         android:textSize="50sp"
-        android:radius="20dp"
         android:textStyle="bold"
-    />
+        android:layout_marginBottom="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/btnStart"
-        style="@style/activity_main_button"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="#595CAE"
-        android:text="@string/start_game"
-    />
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/btnStats"
-        style="@style/activity_main_button"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="#AE5959"
-        android:text="@string/stats"
-    />
+        <Button
+            android:id="@+id/btnStart"
+            style="@style/activity_main_button"
+            android:layout_marginBottom="25dp"
+            android:backgroundTint="#595CAE"
+            android:text="@string/start_game" />
 
-    <Button
-        android:id="@+id/btnSettings"
-        style="@style/activity_main_button"
-        android:layout_marginBottom="50dp"
-        android:backgroundTint="#E89C56"
-        android:text="@string/settings_credits"
-    />
+        <Button
+            android:id="@+id/btnStats"
+            style="@style/activity_main_button"
+            android:layout_marginBottom="25dp"
+            android:backgroundTint="#AE5959"
+            android:text="@string/stats" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btnSettings"
+            style="@style/activity_main_button"
+            android:backgroundTint="#E89C56"
+            android:text="@string/settings_credits" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

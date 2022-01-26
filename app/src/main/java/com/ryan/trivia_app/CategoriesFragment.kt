@@ -37,12 +37,18 @@ class CategoriesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // API call in background thread
         thread {
             // API class
             val api = API()
             // API call
             val json = api.request("https://opentdb.com/api_category.php")
+            println(json)
             // Makes sure the app doesn't crash due to internet connection
             // missing, or parsing issues
             if (json != null) {
@@ -73,8 +79,6 @@ class CategoriesFragment : Fragment() {
                 (context as Activity).overridePendingTransition(0, 0)
             }
         }
-
-        return binding.root
     }
 
     /**
@@ -98,7 +102,7 @@ class CategoriesFragment : Fragment() {
                 // Replaces this fragment with TriviaFragment
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragmentPlaceholder, triviaFragment)
-                    .commitAllowingStateLoss()
+                    .commit()
             }, 1000)
         }
     }

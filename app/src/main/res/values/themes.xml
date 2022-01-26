@@ -29,10 +29,10 @@
     <style name="activity_main_button"
         parent="@style/default_button">
 
-        <item name="android:layout_marginStart">50dp</item>
-        <item name="android:layout_marginEnd">50dp</item>
+        <item name="android:layout_marginStart">25dp</item>
+        <item name="android:layout_marginEnd">25dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_height">88dp</item>
         <item name="android:textSize">15sp</item>
 
     </style>

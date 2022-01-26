@@ -1,5 +1,6 @@
 package com.ryan.trivia_app
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -10,15 +11,91 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.ryan.trivia_app.databinding.FragmentTriviaBinding
+import java.lang.IndexOutOfBoundsException
 import kotlin.concurrent.thread
 
 /** TriviaFragment class, this is the in-game loop. */
 class TriviaFragment : Fragment() {
     /** Binding to access XML components. */
     private var _binding: FragmentTriviaBinding? = null
-
     /** Binding getter. */
     private val binding get() = _binding!!
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Gets the passed data from CategoriesFragment
+        val category = requireArguments().getParcelable<Category>("category")
+        // Sets the category as the top bar
+        binding.txtCategory.text = category!!.name
+
+        thread {
+            val json = API().request(
+                "https://opentdb.com/api.php?amount=50&category=" + category.id + "&type=multiple"
+            )
+            println(json)
+            val buttons = arrayOf(
+                binding.btnAnswer1,
+                binding.btnAnswer2,
+                binding.btnAnswer3,
+                binding.btnAnswer4
+            )
+            requireActivity().runOnUiThread {
+                if (json != null) {
+                    val questionsArray = API().parseQuestions(json)
+
+                    var questionCount = 0
+                    var lives = 3
+                    var answered = false
+
+                    var question = Question("", "", "", "", "")
+                    try {
+                        question = questionsArray[questionCount]
+                    } catch (e: IndexOutOfBoundsException) {
+                        startActivity(API().internetError(requireActivity()))
+                    }
+
+                    // Show first question
+                    showQuestion(binding, questionsArray[questionCount])
+
+                    buttons.forEach { it ->
+                        it.setOnClickListener {
+                            it as Button
+
+                            if (questionCount == 49) {
+                                /* Add 1 to questionCount as we want the amount
+                                   of questions answered, not the index of the array */
+                                showEndOfGame(binding, true, ++questionCount)
+                            }
+                            if (!answered) {
+                                val isCorrect = it.text == question.rightAnswer
+
+                                showAnswers(binding, it, question.rightAnswer, isCorrect)
+                                answered = true
+                                question = questionsArray[++questionCount]
+
+                                if (!isCorrect) {
+                                    if (--lives == 0) {
+                                        // Minus 3 to questionCount to remove 3 wrong answers
+                                        showEndOfGame(binding, false, questionCount - 3)
+                                    } else {
+                                        newQuestion(binding, question, answered)
+                                        answered = false
+                                    }
+                                } else {
+                                    newQuestion(binding, question, answered)
+                                    answered = false
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // Goes back to main and shows a Toast
+                    startActivity(API().internetError(requireActivity()))
+                }
+            }
+        }
+    }
 
     /**
      * When the view is created.
@@ -33,58 +110,7 @@ class TriviaFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTriviaBinding.inflate(inflater, container, false)
-
-        // Gets the passed data from CategoriesFragment
-        val category = requireArguments().getParcelable<Category>("category")
-        // Sets the category as the top bar
-        binding.txtCategory.text = category!!.name
-
-        thread {
-            val json = API().request(
-                "https://opentdb.com/api.php?amount=50&category=" + category.id + "&type=multiple"
-            )
-            val buttons = arrayOf(
-                binding.btnAnswer1,
-                binding.btnAnswer2,
-                binding.btnAnswer3,
-                binding.btnAnswer4
-            )
-            requireActivity().runOnUiThread {
-                if (json != null) {
-                    val questionsArray = API().parseQuestions(json)
-
-                    var questionCount = 0
-                    var question = questionsArray[questionCount]
-
-                    var answered = false
-
-                    // Show first question
-                    showQuestion(binding, questionsArray[questionCount])
-
-                    buttons.forEach { it ->
-                        it.setOnClickListener {
-                            it as Button
-
-                            if (questionCount == 49) {
-                                startActivity(API().internetError(requireActivity()))
-                            }
-                            if (!answered) {
-                                val isCorrect = isCorrect(it, question.rightAnswer)
-                                showAnswers(binding, it, question.rightAnswer, isCorrect)
-                                answered = true
-                                question = questionsArray[++questionCount]
-                                newQuestion(binding, question, answered)
-                                answered = false
-                            }
-                        }
-                    }
-                } else {
-                    // Goes back to main and shows a Toast
-                    startActivity(API().internetError(requireActivity()))
-                }
-            }
-        }
+        _binding = FragmentTriviaBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -124,9 +150,6 @@ class TriviaFragment : Fragment() {
         }
     }
 
-    private fun isCorrect(button: Button, rightAnswer: String): Boolean =
-        button.text == rightAnswer
-
     private fun newQuestion(
         binding: FragmentTriviaBinding,
         question: Question,
@@ -141,5 +164,17 @@ class TriviaFragment : Fragment() {
                 showQuestion(binding, question)
             }, 1000)
         }
+    }
+
+    private fun showEndOfGame(binding: FragmentTriviaBinding, win: Boolean, score: Int) {
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.endOfGame.visibility = View.VISIBLE
+            binding.txtWinOrLose.text = if (win) { "You won!" } else { "Game Over" }
+            binding.txtScore.text = getString(R.string.score, score)
+
+            binding.btnMainMenu.setOnClickListener {
+                startActivity(Intent(context, MainActivity::class.java))
+            }
+        }, 1000)
     }
 }
