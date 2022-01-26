@@ -23,9 +23,25 @@ class CategoriesFragment : Fragment() {
     /** Binding getter. */
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    /**
+     * When the view is created.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the view for binding.
+     */
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // API call in background thread
         thread {
             // API class
@@ -63,23 +79,6 @@ class CategoriesFragment : Fragment() {
                 (context as Activity).overridePendingTransition(0, 0)
             }
         }
-    }
-
-    /**
-     * When the view is created.
-     *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return the view for binding.
-     */
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     /**
