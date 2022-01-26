@@ -51,7 +51,7 @@ class TriviaFragment : Fragment() {
                     var question = Question("", "", "", "", "")
                     try {
                         question = questionsArray[questionCount]
-                    }  catch (e: IndexOutOfBoundsException) {
+                    } catch (e: IndexOutOfBoundsException) {
                         startActivity(API().internetError(requireActivity()))
                     }
 
