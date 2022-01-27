@@ -38,8 +38,8 @@
             <Button
                 android:id="@+id/btnAnswer1"
                 android:background="@drawable/game_button"
-                style="@style/trivia_button"
-                android:layout_marginStart="30dp" />
+                android:layout_marginStart="30dp"
+                style="@style/trivia_button" />
 
             <View
                 android:layout_width="0dp"
@@ -48,9 +48,9 @@
 
             <Button
                 android:id="@+id/btnAnswer2"
+                android:layout_marginEnd="30dp"
                 android:background="@drawable/game_button"
-                style="@style/trivia_button"
-                android:layout_marginEnd="30dp" />
+                style="@style/trivia_button" />
         </LinearLayout>
 
         <LinearLayout
@@ -65,14 +65,14 @@
 
             <View
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_height="0dp" />
 
             <Button
                 android:id="@+id/btnAnswer4"
                 android:background="@drawable/game_button"
-                style="@style/trivia_button"
-                android:layout_marginEnd="30dp" />
+                android:layout_marginEnd="30dp"
+                style="@style/trivia_button" />
 
         </LinearLayout>
     </LinearLayout>
