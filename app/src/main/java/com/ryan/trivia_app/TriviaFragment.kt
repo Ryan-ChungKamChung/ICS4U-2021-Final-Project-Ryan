@@ -157,10 +157,10 @@ class TriviaFragment : Fragment() {
     ) {
         if (answered) {
             Handler(Looper.getMainLooper()).postDelayed({
-                binding.btnAnswer1.setBackgroundColor(Color.parseColor("#F5F5F5"))
-                binding.btnAnswer2.setBackgroundColor(Color.parseColor("#F5F5F5"))
-                binding.btnAnswer3.setBackgroundColor(Color.parseColor("#F5F5F5"))
-                binding.btnAnswer4.setBackgroundColor(Color.parseColor("#F5F5F5"))
+                binding.btnAnswer1.setBackgroundResource(R.drawable.game_button)
+                binding.btnAnswer2.setBackgroundResource(R.drawable.game_button)
+                binding.btnAnswer3.setBackgroundResource(R.drawable.game_button)
+                binding.btnAnswer4.setBackgroundResource(R.drawable.game_button)
                 showQuestion(binding, question)
             }, 1000)
         }
