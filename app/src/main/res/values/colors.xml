@@ -8,4 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="main_background">#23272A</color>
+    <color name="main_activity_button1">#FF5959</color>
+    <color name="main_activity_button1_shadow">#FF2626</color>
+    <color name="main_activity_button2">#676FA3</color>
+    <color name="main_activity_button2_shadow">#515886</color>
+    <color name="main_activity_button3">#CDDEFF</color>
+    <color name="main_activity_button3_shadow">#9ABCFF</color>
+    <color name="unpressed_button">#F5F5F5</color>
+    <color name="unpressed_button_shadow">#DCDCDC</color>
 </resources>

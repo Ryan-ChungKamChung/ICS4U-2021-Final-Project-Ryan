@@ -1,7 +1,6 @@
 package com.ryan.trivia_app
 
 import android.app.Activity
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -66,9 +65,9 @@ class CategoriesFragment : Fragment() {
                     }
 
                     var transferred = false
-                    buttons.forEach { it ->
-                        it.setOnClickListener {
-                            toGame(it as Button, categories[0], transferred)
+                    for (iterator in buttons.indices) {
+                        buttons[iterator].setOnClickListener {
+                            toGame(it as Button, categories[iterator], transferred)
                             transferred = true
                         }
                     }
@@ -88,7 +87,7 @@ class CategoriesFragment : Fragment() {
      */
     private fun toGame(button: Button, category: Category, transferred: Boolean) {
         // Sets chosen button to green
-        button.setBackgroundColor(Color.parseColor("#33B16F"))
+        button.setBackgroundResource(R.drawable.game_button_green)
 
         if (!transferred) {
             // Executes this code 1 second after the button was set to green
