@@ -66,9 +66,9 @@ class CategoriesFragment : Fragment() {
                     }
 
                     var transferred = false
-                    buttons.forEach { it ->
-                        it.setOnClickListener {
-                            toGame(it as Button, categories[0], transferred)
+                    for (iterator in buttons.indices) {
+                        buttons[iterator].setOnClickListener {
+                            toGame(it as Button, categories[iterator], transferred)
                             transferred = true
                         }
                     }
