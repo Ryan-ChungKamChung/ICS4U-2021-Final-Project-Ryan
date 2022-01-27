@@ -1,7 +1,6 @@
 package com.ryan.trivia_app
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -140,12 +139,15 @@ class TriviaFragment : Fragment() {
         val buttons = arrayOf(
             binding.btnAnswer1, binding.btnAnswer2, binding.btnAnswer3, binding.btnAnswer4
         )
-        if (!userRight) {
-            button.setBackgroundColor(Color.parseColor("#D84761"))
-        }
-        for (buttonElement: Button in buttons) {
-            if (buttonElement.text == rightAnswer) {
-                buttonElement.setBackgroundColor(Color.parseColor("#33B16F"))
+        if (userRight) {
+            button.setBackgroundResource(R.drawable.game_button_green)
+        } else {
+            button.setBackgroundResource(R.drawable.game_button_red)
+
+            for (buttonElement: Button in buttons) {
+                if (buttonElement.text == rightAnswer) {
+                    buttonElement.setBackgroundResource(R.drawable.game_button_green_unpressed)
+                }
             }
         }
     }
