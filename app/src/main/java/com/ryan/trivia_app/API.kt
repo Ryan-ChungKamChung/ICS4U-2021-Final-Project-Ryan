@@ -36,10 +36,12 @@ class API {
             val name = (jsonArray[iterator] as JSONObject).getString("name")
             // Adds id and name
             allCategories.add(
-                Category(
-                    (jsonArray[iterator] as JSONObject).getInt("id"),
-                    if (name.startsWith("Entertainment: ")) name.drop(15) else name
-                )
+                Category((jsonArray[iterator] as JSONObject).getInt("id"),
+                when {
+                    name.startsWith("Entertainment: Japanese ") -> name.drop(24)
+                    name.startsWith("Entertainment: ") -> name.drop(15)
+                    else -> name
+                })
             )
         }
 

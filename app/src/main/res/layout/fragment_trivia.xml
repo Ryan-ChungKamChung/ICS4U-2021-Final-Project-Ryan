@@ -8,27 +8,58 @@
     android:layout_height="match_parent"
     tools:context=".TriviaFragment">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/txtCategory"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="30dp"
+        android:background="@drawable/questions_background"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="25dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/txtCategory">
 
         <TextView
-            android:id="@+id/txtCategory"
+            android:id="@+id/txtQuestionCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:text="Question 5"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/txtQuestion"
             android:layout_width="match_parent"
-            android:layout_height="150dp" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/txtCategory" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/questionButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,9 +68,9 @@
 
             <Button
                 android:id="@+id/btnAnswer1"
-                android:background="@drawable/game_button"
+                style="@style/trivia_button"
                 android:layout_marginStart="30dp"
-                style="@style/trivia_button" />
+                android:background="@drawable/game_button" />
 
             <View
                 android:layout_width="0dp"
@@ -48,9 +79,9 @@
 
             <Button
                 android:id="@+id/btnAnswer2"
+                style="@style/trivia_button"
                 android:layout_marginEnd="30dp"
-                android:background="@drawable/game_button"
-                style="@style/trivia_button" />
+                android:background="@drawable/game_button" />
         </LinearLayout>
 
         <LinearLayout
@@ -59,20 +90,20 @@
 
             <Button
                 android:id="@+id/btnAnswer3"
-                android:background="@drawable/game_button"
                 style="@style/trivia_button"
-                android:layout_marginStart="30dp" />
+                android:layout_marginStart="30dp"
+                android:background="@drawable/game_button" />
 
             <View
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="0dp" />
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/btnAnswer4"
-                android:background="@drawable/game_button"
+                style="@style/trivia_button"
                 android:layout_marginEnd="30dp"
-                style="@style/trivia_button" />
+                android:background="@drawable/game_button" />
 
         </LinearLayout>
     </LinearLayout>
@@ -85,6 +116,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="#868686"
         android:layout_margin="50dp"
         android:background="@color/white"
         android:orientation="vertical"
@@ -95,6 +127,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
+            android:gravity="center"
             android:layout_margin="25dp" />
 
         <TextView

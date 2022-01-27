@@ -140,7 +140,7 @@ class TriviaFragment : Fragment() {
             binding.btnAnswer1, binding.btnAnswer2, binding.btnAnswer3, binding.btnAnswer4
         )
         if (userRight) {
-            button.setBackgroundResource(R.drawable.game_button_green)
+            button.setBackgroundResource(R.drawable.game_button_green_pressed)
         } else {
             button.setBackgroundResource(R.drawable.game_button_red)
 
@@ -159,10 +159,10 @@ class TriviaFragment : Fragment() {
     ) {
         if (answered) {
             Handler(Looper.getMainLooper()).postDelayed({
-                binding.btnAnswer1.setBackgroundResource(R.drawable.game_button)
-                binding.btnAnswer2.setBackgroundResource(R.drawable.game_button)
-                binding.btnAnswer3.setBackgroundResource(R.drawable.game_button)
-                binding.btnAnswer4.setBackgroundResource(R.drawable.game_button)
+                binding.btnAnswer1.setBackgroundResource(R.drawable.game_button_unpressed)
+                binding.btnAnswer2.setBackgroundResource(R.drawable.game_button_unpressed)
+                binding.btnAnswer3.setBackgroundResource(R.drawable.game_button_unpressed)
+                binding.btnAnswer4.setBackgroundResource(R.drawable.game_button_unpressed)
                 showQuestion(binding, question)
             }, 1000)
         }
