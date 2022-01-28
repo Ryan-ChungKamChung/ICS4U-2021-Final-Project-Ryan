@@ -65,22 +65,23 @@ class TriviaFragment : Fragment() {
                                 /* Add 1 to questionCount as we want the amount
                                    of questions answered, not the index of the array */
                                 showEndOfGame(binding, true, ++questionCount)
-                            }
-                            if (!answered) {
-                                val isCorrect = it.text == question.rightAnswer
+                            } else {
+                                if (!answered) {
+                                    val isCorrect = it.text == question.rightAnswer
 
-                                showAnswers(binding, it, question.rightAnswer, isCorrect)
-                                answered = true
-                                question = questionsArray[++questionCount]
+                                    showAnswers(binding, it, question.rightAnswer, isCorrect)
+                                    answered = true
+                                    question = questionsArray[++questionCount]
 
-                                if (!isCorrect) {
-                                    if (--lives == 0) {
-                                        // Minus 3 to questionCount to remove 3 wrong answers
-                                        showEndOfGame(binding, false, questionCount - 3)
+                                    if (!isCorrect) {
+                                        if (--lives == 0) {
+                                            // Minus 3 to questionCount to remove 3 wrong answers
+                                            showEndOfGame(binding, false, questionCount - 3)
+                                        }
                                     }
+                                    newQuestion(binding, question, answered, questionCount)
+                                    answered = false
                                 }
-                                newQuestion(binding, question, answered, questionCount)
-                                answered = false
                             }
                         }
                     }
