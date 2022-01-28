@@ -55,7 +55,7 @@ class TriviaFragment : Fragment() {
                     }
 
                     // Show first question
-                    showQuestion(binding, questionsArray[questionCount])
+                    showQuestion(binding, questionsArray[questionCount], questionCount)
 
                     buttons.forEach { it ->
                         it.setOnClickListener {
@@ -77,14 +77,10 @@ class TriviaFragment : Fragment() {
                                     if (--lives == 0) {
                                         // Minus 3 to questionCount to remove 3 wrong answers
                                         showEndOfGame(binding, false, questionCount - 3)
-                                    } else {
-                                        newQuestion(binding, question, answered)
-                                        answered = false
                                     }
-                                } else {
-                                    newQuestion(binding, question, answered)
-                                    answered = false
                                 }
+                                newQuestion(binding, question, answered, questionCount)
+                                answered = false
                             }
                         }
                     }
@@ -113,7 +109,11 @@ class TriviaFragment : Fragment() {
         return binding.root
     }
 
-    private fun showQuestion(binding: FragmentTriviaBinding, question: Question) {
+    private fun showQuestion(
+        binding: FragmentTriviaBinding,
+        question: Question,
+        questionCount: Int
+    ) {
         val answers = arrayOf(
             question.rightAnswer,
             question.wrongAnswer1,
@@ -128,6 +128,7 @@ class TriviaFragment : Fragment() {
         for (iterator in buttons.indices) {
             buttons[iterator].text = answers[iterator]
         }
+        "Question ${questionCount + 1}".also { binding.txtQuestionCount.text = it }
     }
 
     private fun showAnswers(
@@ -155,7 +156,8 @@ class TriviaFragment : Fragment() {
     private fun newQuestion(
         binding: FragmentTriviaBinding,
         question: Question,
-        answered: Boolean
+        answered: Boolean,
+        questionCount: Int
     ) {
         if (answered) {
             Handler(Looper.getMainLooper()).postDelayed({
@@ -163,7 +165,7 @@ class TriviaFragment : Fragment() {
                 binding.btnAnswer2.setBackgroundResource(R.drawable.game_button_unpressed)
                 binding.btnAnswer3.setBackgroundResource(R.drawable.game_button_unpressed)
                 binding.btnAnswer4.setBackgroundResource(R.drawable.game_button_unpressed)
-                showQuestion(binding, question)
+                showQuestion(binding, question, questionCount)
             }, 1000)
         }
     }
