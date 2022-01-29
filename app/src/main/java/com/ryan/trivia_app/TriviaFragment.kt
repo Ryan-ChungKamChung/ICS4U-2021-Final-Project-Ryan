@@ -73,16 +73,21 @@ class TriviaFragment : Fragment() {
                                     answered = true
                                     question = questionsArray[++questionCount]
 
-                                    if (!isCorrect) {
+                                    answered = if (!isCorrect) {
                                         --lives
                                         showLives(binding, lives)
                                         if (lives == 0) {
                                             // Minus 3 to questionCount to remove 3 wrong answers
                                             showEndOfGame(binding, false, questionCount - 3)
+                                            true
+                                        } else {
+                                            newQuestion(binding, question, answered, questionCount)
+                                            false
                                         }
+                                    } else {
+                                        newQuestion(binding, question, answered, questionCount)
+                                        false
                                     }
-                                    newQuestion(binding, question, answered, questionCount)
-                                    answered = false
                                 }
                             }
                         }

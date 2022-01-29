@@ -18,6 +18,14 @@
         <item name="android:windowBackground">@color/main_background</item>
         <item name="android:fontFamily">@font/reem_kufi</item>
     </style>
+    <style name="header">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">35sp</item>
+    </style>
     <style name="default_button">
         <item name="android:textColor">@color/black</item>
         <item name="android:textAlignment">center</item>
@@ -33,16 +41,36 @@
         <item name="cornerRadius">10dp</item>
     </style>
     <style name="game_button" parent="@style/default_button">
+        <item name="android:background">@drawable/game_button</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16sp</item>
         <item name="android:padding">5dp</item>
     </style>
-    <style name="categories_button" parent="@style/trivia_button">
+    <style name="categories_button" parent="@style/game_button">
         <item name="android:layout_width">150dp</item>
         <item name="android:layout_height">150dp</item>
+    </style>
+    <style name="categories_button_left" parent="@style/categories_button">
+        <item name="android:layout_marginStart">30dp</item>
+    </style>
+    <style name="categories_button_right" parent="@style/categories_button">
+        <item name="android:layout_marginEnd">30dp</item>
     </style>
     <style name="trivia_button" parent="@style/game_button">
         <item name="android:layout_width">150dp</item>
         <item name="android:layout_height">125dp</item>
+    </style>
+    <style name="life">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_marginStart">15dp</item>
+        <item name="android:layout_marginEnd">15dp</item>
+        <item name="android:background">@drawable/life_circle</item>
+    </style>
+    <style name="question_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 </resources>

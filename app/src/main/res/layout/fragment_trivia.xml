@@ -10,12 +10,9 @@
 
     <TextView
         android:id="@+id/txtCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="35sp"
-        app:layout_constraintTop_toTopOf="parent" />
+        style="@style/header"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/lifeBar"
@@ -31,25 +28,15 @@
 
         <View
             android:id="@+id/life1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="15dp"
-            android:background="@drawable/life_circle" />
+            style="@style/life" />
 
         <View
             android:id="@+id/life2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/life_circle" />
+            style="@style/life" />
 
         <View
             android:id="@+id/life3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/life_circle" />
+            style="@style/life" />
 
     </LinearLayout>
 
@@ -58,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="175dp"
         android:layout_marginStart="30dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="30dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/questions_background"
         android:orientation="vertical"
@@ -68,21 +55,14 @@
 
         <TextView
             android:id="@+id/txtQuestionCount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/question_text"
             android:layout_marginBottom="15dp"
-            android:gravity="center"
-            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtQuestion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@+id/txtCategory" />
+            style="@style/question_text" />
 
     </LinearLayout>
 
@@ -104,8 +84,7 @@
             <Button
                 android:id="@+id/btnAnswer1"
                 style="@style/trivia_button"
-                android:layout_marginStart="30dp"
-                android:background="@drawable/game_button" />
+                android:layout_marginStart="30dp" />
 
             <View
                 android:layout_width="0dp"
@@ -115,8 +94,7 @@
             <Button
                 android:id="@+id/btnAnswer2"
                 style="@style/trivia_button"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/game_button" />
+                android:layout_marginEnd="30dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -126,8 +104,7 @@
             <Button
                 android:id="@+id/btnAnswer3"
                 style="@style/trivia_button"
-                android:layout_marginStart="30dp"
-                android:background="@drawable/game_button" />
+                android:layout_marginStart="30dp" />
 
             <View
                 android:layout_width="0dp"
@@ -137,8 +114,7 @@
             <Button
                 android:id="@+id/btnAnswer4"
                 style="@style/trivia_button"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/game_button" />
+                android:layout_marginEnd="30dp" />
 
         </LinearLayout>
     </LinearLayout>
@@ -155,7 +131,6 @@
         android:layout_margin="50dp"
         android:orientation="vertical"
         android:visibility="gone">
-
         <TextView
             android:id="@+id/txtWinOrLose"
             android:layout_width="match_parent"
@@ -174,9 +149,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="20sp"
-            android:textColor="#F5F5F5"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp" />
+            android:textColor="#F5F5F5" />
 
         <View
             android:layout_width="match_parent"
@@ -192,6 +165,4 @@
             android:layout_margin="25dp" />
 
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
