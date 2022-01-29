@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="35sp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
@@ -22,7 +22,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
@@ -58,7 +58,7 @@
         android:layout_height="175dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/questions_background"
         android:orientation="vertical"
         android:padding="25dp"
@@ -69,7 +69,9 @@
             android:id="@+id/txtQuestionCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="15dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:gravity="center"
             android:textColor="@color/black" />
 
@@ -96,7 +98,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp">
+            android:layout_marginBottom="20dp">
 
             <Button
                 android:id="@+id/btnAnswer1"
@@ -123,18 +125,18 @@
             <Button
                 android:id="@+id/btnAnswer3"
                 style="@style/trivia_button"
-                android:layout_marginStart="30dp"
-                android:background="@drawable/game_button" />
+                android:background="@drawable/game_button"
+                android:layout_marginStart="30dp" />
 
             <View
+                android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_height="0dp" />
 
             <Button
                 android:id="@+id/btnAnswer4"
-                style="@style/trivia_button"
                 android:layout_marginEnd="30dp"
+                style="@style/trivia_button"
                 android:background="@drawable/game_button" />
 
         </LinearLayout>
@@ -148,9 +150,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:backgroundTint="#868686"
+        android:background="@drawable/end_of_game_background"
         android:layout_margin="50dp"
-        android:background="@color/white"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -158,15 +159,21 @@
             android:id="@+id/txtWinOrLose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textSize="35sp"
             android:gravity="center"
-            android:layout_margin="25dp" />
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="5dp"/>
 
         <TextView
             android:id="@+id/txtScore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="#F5F5F5"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp" />
 
@@ -177,6 +184,7 @@
 
         <Button
             android:id="@+id/btnMainMenu"
+            android:background="@drawable/activity_main_button2"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:text="@string/main_menu"

@@ -186,8 +186,8 @@ class TriviaFragment : Fragment() {
     }
 
     private fun showLives(binding: FragmentTriviaBinding, lives: Int) = when (lives) {
-            2 -> binding.life1.setBackgroundResource(R.drawable.life_circle_lost)
-            1 -> binding.life2.setBackgroundResource(R.drawable.life_circle_lost)
-            else -> binding.life3.setBackgroundResource(R.drawable.life_circle_lost)
+        2 -> binding.life1.setBackgroundResource(R.drawable.life_circle_lost)
+        1 -> binding.life2.setBackgroundResource(R.drawable.life_circle_lost)
+        else -> binding.life3.setBackgroundResource(R.drawable.life_circle_lost)
     }
 }
