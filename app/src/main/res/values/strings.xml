@@ -10,4 +10,5 @@
     <string name="main_menu">Main Menu</string>
     <string name="score">Score: %d</string>
     <string name="x">X</string>
+    <string name="leaderboard">Leaderboard</string>
 </resources>
