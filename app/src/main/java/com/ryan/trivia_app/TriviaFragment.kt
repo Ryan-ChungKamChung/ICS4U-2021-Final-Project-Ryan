@@ -169,10 +169,10 @@ class TriviaFragment : Fragment() {
     ) {
         if (answered) {
             Handler(Looper.getMainLooper()).postDelayed({
-                binding.btnAnswer1.setBackgroundResource(R.drawable.game_button_unpressed)
-                binding.btnAnswer2.setBackgroundResource(R.drawable.game_button_unpressed)
-                binding.btnAnswer3.setBackgroundResource(R.drawable.game_button_unpressed)
-                binding.btnAnswer4.setBackgroundResource(R.drawable.game_button_unpressed)
+                binding.btnAnswer1.setBackgroundResource(R.drawable.default_button)
+                binding.btnAnswer2.setBackgroundResource(R.drawable.default_button)
+                binding.btnAnswer3.setBackgroundResource(R.drawable.default_button)
+                binding.btnAnswer4.setBackgroundResource(R.drawable.default_button)
                 showQuestion(binding, question, questionCount)
             }, 1000)
         }

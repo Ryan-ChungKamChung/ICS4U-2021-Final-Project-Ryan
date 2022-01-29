@@ -35,21 +35,21 @@
         <Button
             android:id="@+id/btnStart"
             style="@style/activity_main_button"
-            android:background="@drawable/activity_main_button1"
+            android:background="@drawable/main_button1"
             android:layout_marginBottom="25dp"
             android:text="@string/start_game" />
 
         <Button
             android:id="@+id/btnLeaderboard"
             style="@style/activity_main_button"
-            android:background="@drawable/activity_main_button2"
+            android:background="@drawable/main_button2"
             android:layout_marginBottom="25dp"
             android:text="@string/leaderboard" />
 
         <Button
             android:id="@+id/btnSettings"
             style="@style/activity_main_button"
-            android:background="@drawable/activity_main_button3"
+            android:background="@drawable/default_button"
             android:text="@string/settings_credits"/>
     </LinearLayout>
 
