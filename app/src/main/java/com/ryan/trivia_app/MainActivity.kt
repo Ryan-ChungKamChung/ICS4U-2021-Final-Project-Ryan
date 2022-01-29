@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnSettings.setOnClickListener {
             startActivity(
                 Intent(this@MainActivity, MenuActivity::class.java).putExtra(
-                "settings", true
+                    "settings", true
                 )
             )
         }
