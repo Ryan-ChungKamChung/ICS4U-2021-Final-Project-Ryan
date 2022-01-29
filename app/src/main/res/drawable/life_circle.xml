@@ -3,7 +3,7 @@
     android:shape="oval">
 
     <stroke
-        android:color="@color/main_activity_button1"
+        android:color="#F5F5F5"
         android:width="5dp" />
 
     <size

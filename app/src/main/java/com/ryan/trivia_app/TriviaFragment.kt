@@ -74,7 +74,9 @@ class TriviaFragment : Fragment() {
                                     question = questionsArray[++questionCount]
 
                                     if (!isCorrect) {
-                                        if (--lives == 0) {
+                                        --lives
+                                        showLives(binding, lives)
+                                        if (lives == 0) {
                                             // Minus 3 to questionCount to remove 3 wrong answers
                                             showEndOfGame(binding, false, questionCount - 3)
                                         }
@@ -181,5 +183,11 @@ class TriviaFragment : Fragment() {
                 startActivity(Intent(context, MainActivity::class.java))
             }
         }, 1000)
+    }
+
+    private fun showLives(binding: FragmentTriviaBinding, lives: Int) = when (lives) {
+            2 -> binding.life1.setBackgroundResource(R.drawable.life_circle_lost)
+            1 -> binding.life2.setBackgroundResource(R.drawable.life_circle_lost)
+            else -> binding.life3.setBackgroundResource(R.drawable.life_circle_lost)
     }
 }
