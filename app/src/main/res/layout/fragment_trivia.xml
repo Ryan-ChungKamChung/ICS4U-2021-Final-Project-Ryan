@@ -18,14 +18,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/lifeBar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintBottom_toTopOf="@+id/questionBox"
+        app:layout_constraintTop_toBottomOf="@+id/txtCategory"
         app:layout_constraintStart_toStartOf="parent">
 
         <View
@@ -53,16 +54,16 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
+        android:id="@+id/questionBox"
         android:layout_width="match_parent"
         android:layout_height="175dp"
         android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/questions_background"
         android:orientation="vertical"
         android:padding="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/questionButtons"
+        app:layout_constraintTop_toBottomOf="@+id/lifeBar"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
@@ -70,10 +71,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
             android:gravity="center"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtQuestion"
@@ -89,9 +90,9 @@
         android:id="@+id/questionButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
-        android:layout_marginBottom="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/questionBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -125,18 +126,18 @@
             <Button
                 android:id="@+id/btnAnswer3"
                 style="@style/trivia_button"
-                android:background="@drawable/game_button"
-                android:layout_marginStart="30dp" />
+                android:layout_marginStart="30dp"
+                android:background="@drawable/game_button" />
 
             <View
-                android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="0dp" />
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/btnAnswer4"
-                android:layout_marginEnd="30dp"
                 style="@style/trivia_button"
+                android:layout_marginEnd="30dp"
                 android:background="@drawable/game_button" />
 
         </LinearLayout>

@@ -6,7 +6,6 @@
 
 package com.ryan.trivia_app
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -28,29 +27,14 @@ class MainActivity : AppCompatActivity() {
         //  Gets error messages from other activities
         val extras = intent.extras
         if (extras != null) {
-            Toast.makeText(this, extras.getString("error"), Toast.LENGTH_LONG).show()
+            if (extras.getString("error") != null) {
+                Toast.makeText(this, extras.getString("error"), Toast.LENGTH_LONG).show()
+            }
         }
 
-        // onClickListener to start the game
-        binding.btnStart.setOnClickListener {
-            startActivity(Intent(this, GameActivity::class.java))
-        }
-
-        binding.btnSettings.setOnClickListener {
-            startActivity(
-                Intent(this@MainActivity, MenuActivity::class.java).putExtra(
-                    "settings", true
-                )
-            )
-        }
-
-        binding.btnLeaderboard.setOnClickListener {
-            startActivity(
-                Intent(this@MainActivity, MenuActivity::class.java).putExtra(
-                    "leaderboard", true
-                )
-            )
-        }
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentPlaceholder, MenuFragment())
+            .commit()
     }
 
     // Will fix later if needed, deprecation here isn't much of a concern
@@ -67,5 +51,16 @@ class MainActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
             View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (!MenuFragment().isResumed) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentPlaceholder, MenuFragment())
+                .commit()
+        } else {
+            moveTaskToBack(true)
+        }
     }
 }

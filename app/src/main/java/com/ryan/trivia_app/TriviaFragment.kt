@@ -181,6 +181,7 @@ class TriviaFragment : Fragment() {
 
             binding.btnMainMenu.setOnClickListener {
                 startActivity(Intent(context, MainActivity::class.java))
+                activity?.finish()
             }
         }, 1000)
     }
