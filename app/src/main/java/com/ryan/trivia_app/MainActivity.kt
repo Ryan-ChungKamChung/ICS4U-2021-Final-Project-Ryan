@@ -35,6 +35,22 @@ class MainActivity : AppCompatActivity() {
         binding.btnStart.setOnClickListener {
             startActivity(Intent(this, GameActivity::class.java))
         }
+
+        binding.btnSettings.setOnClickListener {
+            startActivity(
+                Intent(this@MainActivity, MenuActivity::class.java).putExtra(
+                    "settings", true
+                )
+            )
+        }
+
+        binding.btnLeaderboard.setOnClickListener {
+            startActivity(
+                Intent(this@MainActivity, MenuActivity::class.java).putExtra(
+                    "leaderboard", true
+                )
+            )
+        }
     }
 
     // Will fix later if needed, deprecation here isn't much of a concern

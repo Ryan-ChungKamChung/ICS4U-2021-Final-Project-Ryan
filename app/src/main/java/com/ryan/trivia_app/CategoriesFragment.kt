@@ -87,7 +87,7 @@ class CategoriesFragment : Fragment() {
      */
     private fun toGame(button: Button, category: Category, transferred: Boolean) {
         // Sets chosen button to green
-        button.setBackgroundResource(R.drawable.game_button_green)
+        button.setBackgroundResource(R.drawable.game_button_green_pressed)
 
         if (!transferred) {
             // Executes this code 1 second after the button was set to green

@@ -8,38 +8,103 @@
     android:layout_height="match_parent"
     tools:context=".TriviaFragment">
 
+    <TextView
+        android:id="@+id/txtCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="35sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:id="@+id/life1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/life_circle" />
+
+        <View
+            android:id="@+id/life2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/life_circle" />
+
+        <View
+            android:id="@+id/life3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/life_circle" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/questions_background"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/questionButtons"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/txtCategory"
+            android:id="@+id/txtQuestionCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/txtQuestion"
             android:layout_width="match_parent"
-            android:layout_height="150dp" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/txtCategory" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/questionButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp">
+            android:layout_marginBottom="20dp">
 
             <Button
                 android:id="@+id/btnAnswer1"
-                android:background="@drawable/game_button"
+                style="@style/trivia_button"
                 android:layout_marginStart="30dp"
-                style="@style/trivia_button" />
+                android:background="@drawable/game_button" />
 
             <View
                 android:layout_width="0dp"
@@ -48,9 +113,9 @@
 
             <Button
                 android:id="@+id/btnAnswer2"
+                style="@style/trivia_button"
                 android:layout_marginEnd="30dp"
-                android:background="@drawable/game_button"
-                style="@style/trivia_button" />
+                android:background="@drawable/game_button" />
         </LinearLayout>
 
         <LinearLayout
@@ -59,20 +124,20 @@
 
             <Button
                 android:id="@+id/btnAnswer3"
-                android:background="@drawable/game_button"
                 style="@style/trivia_button"
+                android:background="@drawable/game_button"
                 android:layout_marginStart="30dp" />
 
             <View
-                android:layout_width="0dp"
                 android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="0dp" />
 
             <Button
                 android:id="@+id/btnAnswer4"
-                android:background="@drawable/game_button"
                 android:layout_marginEnd="30dp"
-                style="@style/trivia_button" />
+                style="@style/trivia_button"
+                android:background="@drawable/game_button" />
 
         </LinearLayout>
     </LinearLayout>
@@ -85,8 +150,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/end_of_game_background"
         android:layout_margin="50dp"
-        android:background="@color/white"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -94,14 +159,21 @@
             android:id="@+id/txtWinOrLose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_margin="25dp" />
+            android:textColor="@color/white"
+            android:textSize="35sp"
+            android:gravity="center"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="5dp"/>
 
         <TextView
             android:id="@+id/txtScore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="#F5F5F5"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp" />
 
@@ -112,6 +184,7 @@
 
         <Button
             android:id="@+id/btnMainMenu"
+            android:background="@drawable/activity_main_button2"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:text="@string/main_menu"

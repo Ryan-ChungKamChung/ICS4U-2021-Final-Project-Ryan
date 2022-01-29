@@ -38,7 +38,11 @@ class API {
             allCategories.add(
                 Category(
                     (jsonArray[iterator] as JSONObject).getInt("id"),
-                    if (name.startsWith("Entertainment: ")) name.drop(15) else name
+                    when {
+                        name.startsWith("Entertainment: Japanese ") -> name.drop(24)
+                        name.startsWith("Entertainment: ") -> name.drop(15)
+                        else -> name
+                    }
                 )
             )
         }

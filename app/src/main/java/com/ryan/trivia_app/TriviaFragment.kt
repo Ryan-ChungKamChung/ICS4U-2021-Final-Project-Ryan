@@ -55,7 +55,7 @@ class TriviaFragment : Fragment() {
                     }
 
                     // Show first question
-                    showQuestion(binding, questionsArray[questionCount])
+                    showQuestion(binding, questionsArray[questionCount], questionCount)
 
                     buttons.forEach { it ->
                         it.setOnClickListener {
@@ -65,24 +65,23 @@ class TriviaFragment : Fragment() {
                                 /* Add 1 to questionCount as we want the amount
                                    of questions answered, not the index of the array */
                                 showEndOfGame(binding, true, ++questionCount)
-                            }
-                            if (!answered) {
-                                val isCorrect = it.text == question.rightAnswer
+                            } else {
+                                if (!answered) {
+                                    val isCorrect = it.text == question.rightAnswer
 
-                                showAnswers(binding, it, question.rightAnswer, isCorrect)
-                                answered = true
-                                question = questionsArray[++questionCount]
+                                    showAnswers(binding, it, question.rightAnswer, isCorrect)
+                                    answered = true
+                                    question = questionsArray[++questionCount]
 
-                                if (!isCorrect) {
-                                    if (--lives == 0) {
-                                        // Minus 3 to questionCount to remove 3 wrong answers
-                                        showEndOfGame(binding, false, questionCount - 3)
-                                    } else {
-                                        newQuestion(binding, question, answered)
-                                        answered = false
+                                    if (!isCorrect) {
+                                        --lives
+                                        showLives(binding, lives)
+                                        if (lives == 0) {
+                                            // Minus 3 to questionCount to remove 3 wrong answers
+                                            showEndOfGame(binding, false, questionCount - 3)
+                                        }
                                     }
-                                } else {
-                                    newQuestion(binding, question, answered)
+                                    newQuestion(binding, question, answered, questionCount)
                                     answered = false
                                 }
                             }
@@ -113,7 +112,11 @@ class TriviaFragment : Fragment() {
         return binding.root
     }
 
-    private fun showQuestion(binding: FragmentTriviaBinding, question: Question) {
+    private fun showQuestion(
+        binding: FragmentTriviaBinding,
+        question: Question,
+        questionCount: Int
+    ) {
         val answers = arrayOf(
             question.rightAnswer,
             question.wrongAnswer1,
@@ -128,6 +131,7 @@ class TriviaFragment : Fragment() {
         for (iterator in buttons.indices) {
             buttons[iterator].text = answers[iterator]
         }
+        "Question ${questionCount + 1}".also { binding.txtQuestionCount.text = it }
     }
 
     private fun showAnswers(
@@ -140,7 +144,7 @@ class TriviaFragment : Fragment() {
             binding.btnAnswer1, binding.btnAnswer2, binding.btnAnswer3, binding.btnAnswer4
         )
         if (userRight) {
-            button.setBackgroundResource(R.drawable.game_button_green)
+            button.setBackgroundResource(R.drawable.game_button_green_pressed)
         } else {
             button.setBackgroundResource(R.drawable.game_button_red)
 
@@ -155,15 +159,16 @@ class TriviaFragment : Fragment() {
     private fun newQuestion(
         binding: FragmentTriviaBinding,
         question: Question,
-        answered: Boolean
+        answered: Boolean,
+        questionCount: Int
     ) {
         if (answered) {
             Handler(Looper.getMainLooper()).postDelayed({
-                binding.btnAnswer1.setBackgroundResource(R.drawable.game_button)
-                binding.btnAnswer2.setBackgroundResource(R.drawable.game_button)
-                binding.btnAnswer3.setBackgroundResource(R.drawable.game_button)
-                binding.btnAnswer4.setBackgroundResource(R.drawable.game_button)
-                showQuestion(binding, question)
+                binding.btnAnswer1.setBackgroundResource(R.drawable.game_button_unpressed)
+                binding.btnAnswer2.setBackgroundResource(R.drawable.game_button_unpressed)
+                binding.btnAnswer3.setBackgroundResource(R.drawable.game_button_unpressed)
+                binding.btnAnswer4.setBackgroundResource(R.drawable.game_button_unpressed)
+                showQuestion(binding, question, questionCount)
             }, 1000)
         }
     }
@@ -178,5 +183,11 @@ class TriviaFragment : Fragment() {
                 startActivity(Intent(context, MainActivity::class.java))
             }
         }, 1000)
+    }
+
+    private fun showLives(binding: FragmentTriviaBinding, lives: Int) = when (lives) {
+        2 -> binding.life1.setBackgroundResource(R.drawable.life_circle_lost)
+        1 -> binding.life2.setBackgroundResource(R.drawable.life_circle_lost)
+        else -> binding.life3.setBackgroundResource(R.drawable.life_circle_lost)
     }
 }
