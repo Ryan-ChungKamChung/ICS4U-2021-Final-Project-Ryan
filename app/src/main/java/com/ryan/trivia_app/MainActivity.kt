@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.ryan.trivia_app.databinding.ActivityMainBinding
 
 /** MainActivity class. */
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         //  Gets error messages from other activities
         val extras = intent.extras
@@ -51,16 +53,5 @@ class MainActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
             View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        if (!MenuFragment().isResumed) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentPlaceholder, MenuFragment())
-                .commit()
-        } else {
-            moveTaskToBack(true)
-        }
     }
 }

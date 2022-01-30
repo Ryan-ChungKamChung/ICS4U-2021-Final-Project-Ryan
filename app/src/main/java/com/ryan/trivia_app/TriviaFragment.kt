@@ -1,6 +1,7 @@
 package com.ryan.trivia_app
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,14 +10,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.ryan.trivia_app.databinding.FragmentTriviaBinding
-import java.lang.IndexOutOfBoundsException
 import kotlin.concurrent.thread
+
 
 /** TriviaFragment class, this is the in-game loop. */
 class TriviaFragment : Fragment() {
     /** Binding to access XML components. */
     private var _binding: FragmentTriviaBinding? = null
+
     /** Binding getter. */
     private val binding get() = _binding!!
 
@@ -27,6 +30,9 @@ class TriviaFragment : Fragment() {
         val category = requireArguments().getParcelable<Category>("category")
         // Sets the category as the top bar
         binding.txtCategory.text = category!!.name
+
+        val settings = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val fx = settings.getBoolean("fx", true)
 
         thread {
             val json = API().request(
@@ -45,7 +51,6 @@ class TriviaFragment : Fragment() {
 
                     var questionCount = 0
                     var lives = 3
-                    var answered = false
 
                     var question = Question("", "", "", "", "")
                     try {
@@ -58,7 +63,7 @@ class TriviaFragment : Fragment() {
                     showQuestion(binding, questionsArray[questionCount], questionCount)
 
                     buttons.forEach { it ->
-                        it.setOnClickListener {
+                        it.onLimitedClick {
                             it as Button
 
                             if (questionCount == 49) {
@@ -66,28 +71,37 @@ class TriviaFragment : Fragment() {
                                    of questions answered, not the index of the array */
                                 showEndOfGame(binding, true, ++questionCount)
                             } else {
-                                if (!answered) {
-                                    val isCorrect = it.text == question.rightAnswer
+                                val isCorrect = it.text == question.rightAnswer
 
-                                    showAnswers(binding, it, question.rightAnswer, isCorrect)
-                                    answered = true
-                                    question = questionsArray[++questionCount]
+                                buttons.forEach { button -> button.isEnabled = false }
+                                showAnswers(binding, it, question.rightAnswer, isCorrect)
+                                question = questionsArray[++questionCount]
 
-                                    answered = if (!isCorrect) {
-                                        --lives
-                                        showLives(binding, lives)
-                                        if (lives == 0) {
-                                            // Minus 3 to questionCount to remove 3 wrong answers
-                                            showEndOfGame(binding, false, questionCount - 3)
-                                            true
-                                        } else {
-                                            newQuestion(binding, question, answered, questionCount)
-                                            false
-                                        }
-                                    } else {
-                                        newQuestion(binding, question, answered, questionCount)
-                                        false
+                                if (!isCorrect) {
+                                    if (fx) {
+                                        val wrongSound =
+                                            MediaPlayer.create(requireContext(), R.raw.wrong)
+                                        wrongSound.setVolume(1.5f, 1.5f)
+                                        wrongSound.start()
                                     }
+
+                                    --lives
+                                    showLives(binding, lives)
+                                    if (lives == 0) {
+                                        // Minus 3 to questionCount to remove 3 wrong answers
+                                        showEndOfGame(binding, false, questionCount - 3)
+                                    } else {
+                                        newQuestion(binding, buttons, question, questionCount)
+                                    }
+                                } else {
+                                    if (fx) {
+                                        val rightSound =
+                                            MediaPlayer.create(requireContext(), R.raw.right)
+                                        rightSound.setVolume(1.5f, 1.5f)
+                                        rightSound.start()
+                                    }
+
+                                    newQuestion(binding, buttons, question, questionCount)
                                 }
                             }
                         }
@@ -163,25 +177,28 @@ class TriviaFragment : Fragment() {
 
     private fun newQuestion(
         binding: FragmentTriviaBinding,
+        buttons: Array<Button>,
         question: Question,
-        answered: Boolean,
         questionCount: Int
     ) {
-        if (answered) {
-            Handler(Looper.getMainLooper()).postDelayed({
-                binding.btnAnswer1.setBackgroundResource(R.drawable.default_button)
-                binding.btnAnswer2.setBackgroundResource(R.drawable.default_button)
-                binding.btnAnswer3.setBackgroundResource(R.drawable.default_button)
-                binding.btnAnswer4.setBackgroundResource(R.drawable.default_button)
-                showQuestion(binding, question, questionCount)
-            }, 1000)
-        }
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.btnAnswer1.setBackgroundResource(R.drawable.default_button)
+            binding.btnAnswer2.setBackgroundResource(R.drawable.default_button)
+            binding.btnAnswer3.setBackgroundResource(R.drawable.default_button)
+            binding.btnAnswer4.setBackgroundResource(R.drawable.default_button)
+            showQuestion(binding, question, questionCount)
+            buttons.forEach { button -> button.isEnabled = true }
+        }, 1000)
     }
 
     private fun showEndOfGame(binding: FragmentTriviaBinding, win: Boolean, score: Int) {
         Handler(Looper.getMainLooper()).postDelayed({
             binding.endOfGame.visibility = View.VISIBLE
-            binding.txtWinOrLose.text = if (win) { "You won!" } else { "Game Over" }
+            binding.txtWinOrLose.text = if (win) {
+                "You won!"
+            } else {
+                "Game Over"
+            }
             binding.txtScore.text = getString(R.string.score, score)
 
             binding.btnMainMenu.setOnClickListener {

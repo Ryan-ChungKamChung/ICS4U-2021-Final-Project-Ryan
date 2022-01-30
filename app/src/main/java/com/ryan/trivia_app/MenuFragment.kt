@@ -42,12 +42,14 @@ class MenuFragment : Fragment() {
         binding.btnLeaderboard.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentPlaceholder, LeaderboardFragment())
+                .addToBackStack( "leaderboard" )
                 .commit()
         }
 
         binding.btnSettings.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentPlaceholder, SettingsFragment())
+                .addToBackStack( "settings" )
                 .commit()
         }
     }
