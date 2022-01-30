@@ -49,7 +49,7 @@ class Transfer {
             Intent(activity, MainActivity::class.java).putExtra(
                 "error",
                 "Something went wrong. Please check your internet connection" +
-                        " and try again shortly."
+                    " and try again shortly."
             )
         )
 }

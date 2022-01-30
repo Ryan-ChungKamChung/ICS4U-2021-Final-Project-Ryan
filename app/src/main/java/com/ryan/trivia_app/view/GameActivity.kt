@@ -7,7 +7,6 @@
 package com.ryan.trivia_app.view
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.ryan.trivia_app.R
 import com.ryan.trivia_app.controller.Transfer
