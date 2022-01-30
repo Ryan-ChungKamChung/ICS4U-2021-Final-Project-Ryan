@@ -65,7 +65,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun bindToFXButton(binding: FragmentSettingsBinding, fx:Boolean) {
+    private fun bindToFXButton(binding: FragmentSettingsBinding, fx: Boolean) {
         binding.btnFX.text = if (fx) "ON" else "OFF"
         binding.btnFX.setBackgroundResource(
             if (fx) R.drawable.fx_button_green else R.drawable.fx_button_red

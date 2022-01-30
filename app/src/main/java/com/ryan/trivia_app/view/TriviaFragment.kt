@@ -19,6 +19,8 @@ import com.ryan.trivia_app.model.API
 import com.ryan.trivia_app.model.Category
 import com.ryan.trivia_app.model.Question
 import kotlin.concurrent.thread
+import org.json.JSONArray
+import org.json.JSONException
 
 /** TriviaFragment class, this is the in-game loop. */
 class TriviaFragment : Fragment() {
@@ -109,10 +111,12 @@ class TriviaFragment : Fragment() {
                                 if (isCorrect) {
                                     // Play right answer sound effect
                                     if (fx) {
-                                        val rightSound =
-                                            MediaPlayer.create(requireContext(), R.raw.right)
-                                        rightSound.setVolume(1.5f, 1.5f)
-                                        rightSound.start()
+                                        thread {
+                                            val rightSound =
+                                                MediaPlayer.create(requireContext(), R.raw.right)
+                                            rightSound.setVolume(1.5f, 1.5f)
+                                            rightSound.start()
+                                        }
                                     }
 
                                     // Show new question
@@ -120,10 +124,12 @@ class TriviaFragment : Fragment() {
                                 } else {
                                     // Play wrong answer sound effect
                                     if (fx) {
-                                        val wrongSound =
-                                            MediaPlayer.create(requireContext(), R.raw.wrong)
-                                        wrongSound.setVolume(1.5f, 1.5f)
-                                        wrongSound.start()
+                                        thread {
+                                            val wrongSound =
+                                                MediaPlayer.create(requireContext(), R.raw.wrong)
+                                            wrongSound.setVolume(1.5f, 1.5f)
+                                            wrongSound.start()
+                                        }
                                     }
 
                                     // Removes a life
@@ -256,12 +262,16 @@ class TriviaFragment : Fragment() {
         question: Question,
         questionCount: Int
     ) {
+        // 1 second delay until next question is shown
         Handler(Looper.getMainLooper()).postDelayed({
+            // Set back default drawable
             binding.btnAnswer1.setBackgroundResource(R.drawable.default_button)
             binding.btnAnswer2.setBackgroundResource(R.drawable.default_button)
             binding.btnAnswer3.setBackgroundResource(R.drawable.default_button)
             binding.btnAnswer4.setBackgroundResource(R.drawable.default_button)
+            // Show new question
             showQuestion(binding, question, questionCount)
+            // Return ability to click buttons
             buttons.forEach { button -> button.isEnabled = true }
         }, 1000)
     }
@@ -274,15 +284,18 @@ class TriviaFragment : Fragment() {
      * @param score the number of right answers.
      */
     private fun showEndOfGame(binding: FragmentTriviaBinding, win: Boolean, score: Int) {
+        // 1 second delay until end of game is shown
         Handler(Looper.getMainLooper()).postDelayed({
+            // Makes end of game screen visible
             binding.endOfGame.visibility = View.VISIBLE
-            binding.txtWinOrLose.text = if (win) {
-                "You won!"
-            } else {
-                "Game Over"
-            }
+            // Sets the header to if the user won or not
+            binding.txtWinOrLose.text = if (win) "You won!" else "Game Over"
+            // Display score
             binding.txtScore.text = getString(R.string.score, score)
+            // Update leaderboard in persistent storage
+            updateLeaderboard(score)
 
+            // Button to go back to MainActivity
             binding.btnMainMenu.setOnClickListener {
                 startActivity(Intent(context, MainActivity::class.java))
                 activity?.finish()
@@ -300,5 +313,44 @@ class TriviaFragment : Fragment() {
         2 -> binding.life1.setBackgroundResource(R.drawable.life_circle_lost)
         1 -> binding.life2.setBackgroundResource(R.drawable.life_circle_lost)
         else -> binding.life3.setBackgroundResource(R.drawable.life_circle_lost)
+    }
+
+    /**
+     * Updates the leaderboard inside of persistent storage.
+     *
+     * @param score  the number of right answers.
+     */
+    private fun updateLeaderboard(score: Int) {
+        // Leaderboard in persistent storage
+        val prefLeaderboard = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        // JSONArray from the String in persistent storage
+        val jsonLeaderboard = try {
+            JSONArray(prefLeaderboard.getString("jsonLeaderboard", "empty"))
+        } catch (e: JSONException) {
+            null
+        }
+
+        // Creates an ArrayList from the JSONArray
+        val leaderboard = ArrayList<Int>()
+        if (jsonLeaderboard != null) {
+            for (iterator in 0 until jsonLeaderboard.length()) {
+                leaderboard.add(jsonLeaderboard.getInt(iterator))
+            }
+        }
+
+        // Sorts and removes any extra entries so the size of the leaderboard doesn't exceed 10
+        leaderboard.add(score)
+        leaderboard.sort()
+        if (leaderboard.size > 10) {
+            leaderboard.remove(11)
+        }
+
+        // Applies it to persistent storage
+        val edit = prefLeaderboard.edit()
+        edit.putString("jsonLeaderboard", JSONArray(leaderboard).toString())
+        edit.apply()
+
+        println(leaderboard)
+        println(score)
     }
 }

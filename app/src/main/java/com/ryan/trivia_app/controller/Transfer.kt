@@ -24,7 +24,9 @@ class Transfer {
         backStack: Pair<Boolean, String>? = null
     ) {
         val transition = fragmentManager.beginTransaction().replace(start, end)
-        if (backStack?.first == true) { transition.addToBackStack(backStack.second) }
+        if (backStack?.first == true) {
+            transition.addToBackStack(backStack.second)
+        }
         transition.commit()
     }
 
@@ -43,9 +45,11 @@ class Transfer {
      * @param activity the activity holding the fragment.
      */
     fun transferForIssue(activity: Activity) =
-        activity.startActivity(Intent(activity, MainActivity::class.java).putExtra(
-            "error",
-            "Something went wrong. Please check your internet connection" +
-                    " and try again shortly."
-        ))
+        activity.startActivity(
+            Intent(activity, MainActivity::class.java).putExtra(
+                "error",
+                "Something went wrong. Please check your internet connection" +
+                        " and try again shortly."
+            )
+        )
 }

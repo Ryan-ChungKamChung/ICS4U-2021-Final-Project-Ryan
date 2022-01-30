@@ -12,7 +12,9 @@ class OnLimitedClick(
     private var lastClick: Long = 0
 
     override fun onClick(button: View) {
-        if (interval > SystemClock.elapsedRealtime() - lastClick) { return }
+        if (interval > SystemClock.elapsedRealtime() - lastClick) {
+            return
+        }
         lastClick = SystemClock.elapsedRealtime()
         onLimitedClick(button)
     }

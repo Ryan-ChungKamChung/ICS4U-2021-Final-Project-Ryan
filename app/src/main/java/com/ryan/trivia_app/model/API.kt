@@ -13,7 +13,11 @@ class API {
      * @param url to make a GET request
      * @return JSON as String or null
      */
-    fun request(url: String): String? = try { URL(url).readText() } catch (e: Exception) { null }
+    fun request(url: String): String? = try {
+        URL(url).readText()
+    } catch (e: Exception) {
+        null
+    }
 
     /**
      * Parses categories API response.
