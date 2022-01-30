@@ -47,6 +47,12 @@ class SettingsFragment : Fragment() {
                 )
             )
         }
+
+        binding.btnBack.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentPlaceholder, MenuFragment())
+                .commit()
+        }
     }
 
     private fun bindToFXButton(binding: FragmentSettingsBinding, fx:Boolean) {

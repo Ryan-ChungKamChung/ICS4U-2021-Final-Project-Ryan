@@ -19,4 +19,6 @@
     <string name="link_to_api"><u>Link to the API here</u></string>
     <string name="link_to_license"><u>Link to the license here</u></string>
     <string name="dreamstime_sound_effects">• Sound effects taken royalty-free \n\t\tfrom Dreamstime</string>
+    <string name="back_arrow"><![CDATA[<]]></string>
+    <string name="triviafun2">TRIVIAFUN</string>
 </resources>

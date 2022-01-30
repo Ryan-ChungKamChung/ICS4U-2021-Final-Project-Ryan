@@ -1,87 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsFragment"
-    android:orientation="vertical">
-
-    <TextView
-        style="@style/header"
-        android:text="@string/settings"
-        android:layout_marginBottom="10dp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textSize="25sp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:text="@string/fx"
-        android:layout_marginBottom="10dp" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".SettingsFragment">
 
     <Button
-        android:id="@+id/btnFX"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/fx_button_green"
-        android:textSize="20sp"
-        android:text="@string/on"
-        android:textStyle="bold"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="10dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="5dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:textSize="35sp"
         android:textColor="@color/white"
-        android:text="@string/credits"
-        android:layout_marginBottom="10dp" />
+        android:text="@string/back_arrow" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_marginStart="20dp"
-        android:textColor="@color/white"
-        android:text="@string/open_trivia_database"
-        android:layout_marginBottom="10dp" />
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnAPI"
-        style="@style/default_button"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/default_button"
-        android:textSize="20sp"
-        android:text="@string/link_to_api"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="10dp" />
+        <TextView
+            style="@style/header"
+            android:text="@string/settings"
+            android:layout_marginBottom="10dp" />
 
-    <Button
-        android:id="@+id/btnLicense"
-        style="@style/default_button"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/default_button"
-        android:textSize="20sp"
-        android:text="@string/link_to_license"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="20dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="@string/fx"
+            android:layout_marginBottom="10dp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_marginStart="20dp"
-        android:textColor="@color/white"
-        android:text="@string/dreamstime_sound_effects"
-        android:layout_marginBottom="10dp" />
+        <Button
+            android:id="@+id/btnFX"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/fx_button_green"
+            android:textSize="20sp"
+            android:text="@string/on"
+            android:textStyle="bold"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="10dp"/>
 
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="@string/credits"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/white"
+            android:text="@string/open_trivia_database"
+            android:layout_marginBottom="10dp" />
+
+        <Button
+            android:id="@+id/btnAPI"
+            style="@style/default_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/default_button"
+            android:textSize="20sp"
+            android:text="@string/link_to_api"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="10dp" />
+
+        <Button
+            android:id="@+id/btnLicense"
+            style="@style/default_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/default_button"
+            android:textSize="20sp"
+            android:text="@string/link_to_license"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/white"
+            android:text="@string/dreamstime_sound_effects"
+            android:layout_marginBottom="10dp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

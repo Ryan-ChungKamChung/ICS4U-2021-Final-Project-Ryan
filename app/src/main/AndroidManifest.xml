@@ -13,9 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Triviaapp">
         <activity
-            android:name=".MenuActivity"
-            android:exported="false" />
-        <activity
             android:name=".GameActivity"
             android:exported="false" />
         <activity
