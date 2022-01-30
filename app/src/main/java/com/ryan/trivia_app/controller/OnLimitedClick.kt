@@ -1,4 +1,4 @@
-package com.ryan.trivia_app
+package com.ryan.trivia_app.controller
 
 import android.os.SystemClock
 import android.view.View

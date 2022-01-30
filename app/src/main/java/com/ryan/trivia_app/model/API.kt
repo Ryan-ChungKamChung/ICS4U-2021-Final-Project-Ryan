@@ -1,7 +1,5 @@
-package com.ryan.trivia_app
+package com.ryan.trivia_app.model
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Build
 import android.text.Html
 import java.net.URL
@@ -20,8 +18,8 @@ class API {
     /**
      * Parses categories API response.
      *
-     * @param json as String
-     * @return Categories
+     * @param json as String.
+     * @return Categories.
      */
     fun parseCategories(json: String): ArrayList<Category> {
         // All categories from API
@@ -38,6 +36,7 @@ class API {
             allCategories.add(
                 Category(
                     (jsonArray[iterator] as JSONObject).getInt("id"),
+                    // Filters unnecessary substrings
                     when {
                         name.startsWith("Entertainment: Japanese ") -> name.drop(24)
                         name.startsWith("Entertainment: ") -> name.drop(15)
@@ -47,15 +46,18 @@ class API {
             )
         }
 
-        // Random numbers
+        // Random unique numbers
         val randomList = (0 until allCategories.size).shuffled().take(4)
         for (randNum: Int in randomList) {
             while (true) {
                 val categoryID = allCategories[randNum].id
-                if (categoryIsValid(categoryID) != null && categoryIsValid(categoryID) == true) {
+                // If it's a valid category
+                if (categoryIsValid(categoryID) == true) {
+                    // Add it to the usedCategories array to be sent back
                     usedCategories.add(allCategories[randNum])
                     break
                 } else {
+                    // Test the next category if it isn't valid
                     categoryID + 1
                 }
             }
@@ -64,6 +66,12 @@ class API {
         return usedCategories
     }
 
+    /**
+     * Checks if a category has enough questions (50) for a full game
+     *
+     * @param id the category ID
+     * @return returns if it's valid, or null if there is an internet error
+     */
     private fun categoryIsValid(id: Int): Boolean? {
         val json = request("https://opentdb.com/api_count.php?category=$id")
         return if (json != null) {
@@ -74,9 +82,18 @@ class API {
         }
     }
 
+    /**
+     * Parses the question API call response.
+     *
+     * @param json the returned JSON.
+     * @return a parsed ArrayList of all questions.
+     */
     fun parseQuestions(json: String): ArrayList<Question> {
+        // Questions to be sent back
         val questionsArray = ArrayList<Question>()
+        // Entry point of the JSON data
         val results = JSONObject(json).getJSONArray("results")
+        // For every JSONObject inside results
         for (iterator in 0 until results.length()) {
             // Get array of incorrect answers
             val incorrectAnswers = arrayOfNulls<String>(3)
@@ -85,17 +102,15 @@ class API {
                     .getJSONArray("incorrect_answers")
                     .getString(iterator2)
             }
-
+            // Adds all relevant information to questionsArray
             val jsonObject = results[iterator] as JSONObject
             questionsArray.add(
                 Question(
                     htmlToString(jsonObject.getString("question")),
                     htmlToString(jsonObject.getString("correct_answer")),
                     htmlToString(incorrectAnswers[0]!!),
-                    if (incorrectAnswers[1] != null) htmlToString(incorrectAnswers[1]!!)
-                    else null,
-                    if (incorrectAnswers[2] != null) htmlToString(incorrectAnswers[2]!!)
-                    else null
+                    htmlToString(incorrectAnswers[1]!!),
+                    htmlToString(incorrectAnswers[2]!!),
                 )
             )
         }
@@ -103,23 +118,10 @@ class API {
     }
 
     /**
-     * Returns a reusable Intent for internet connection issues.
-     *
-     * @param activity that the fragment is in
-     * @return intent
-     */
-    fun internetError(activity: Activity): Intent =
-        Intent(activity, MainActivity::class.java).putExtra(
-            "error",
-            "Something went wrong. Please check your internet connection" +
-                " and try again shortly."
-        )
-
-    /**
      * Converts HTML entities.
      *
-     * @param text String to decode
-     * @return decoded String with special characters
+     * @param text String to decode.
+     * @return decoded String with special characters.
      */
     @Suppress("DEPRECATION")
     private fun htmlToString(text: String): String = if (Build.VERSION.SDK_INT >= 24) {

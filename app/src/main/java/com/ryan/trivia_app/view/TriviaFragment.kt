@@ -1,4 +1,4 @@
-package com.ryan.trivia_app
+package com.ryan.trivia_app.view
 
 import android.content.Intent
 import android.media.MediaPlayer
@@ -11,9 +11,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import com.ryan.trivia_app.R
+import com.ryan.trivia_app.controller.Transfer
+import com.ryan.trivia_app.controller.onLimitedClick
 import com.ryan.trivia_app.databinding.FragmentTriviaBinding
+import com.ryan.trivia_app.model.API
+import com.ryan.trivia_app.model.Category
+import com.ryan.trivia_app.model.Question
 import kotlin.concurrent.thread
-
 
 /** TriviaFragment class, this is the in-game loop. */
 class TriviaFragment : Fragment() {
@@ -23,6 +28,12 @@ class TriviaFragment : Fragment() {
     /** Binding getter. */
     private val binding get() = _binding!!
 
+    /**
+     * After the view is created with binding, create onClickListeners
+     *
+     * @param view the view with the inflated layout
+     * @param savedInstanceState Bundle holding instanceState
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -31,69 +42,72 @@ class TriviaFragment : Fragment() {
         // Sets the category as the top bar
         binding.txtCategory.text = category!!.name
 
+        // FX setting in persistent storage
         val settings = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val fx = settings.getBoolean("fx", true)
 
+        // API call in background thread
         thread {
+            // API call
             val json = API().request(
                 "https://opentdb.com/api.php?amount=50&category=" + category.id + "&type=multiple"
             )
-            println(json)
+            // Array of buttons
             val buttons = arrayOf(
                 binding.btnAnswer1,
                 binding.btnAnswer2,
                 binding.btnAnswer3,
                 binding.btnAnswer4
             )
+            // UI thread
             requireActivity().runOnUiThread {
+                // Makes sure the API call was successful
                 if (json != null) {
+                    // Parsed array of Questions
                     val questionsArray = API().parseQuestions(json)
 
+                    // Game attributes
+                    // Numbers of questions that have passed
                     var questionCount = 0
+                    // Lives remaining
                     var lives = 3
 
+                    // Current question
                     var question = Question("", "", "", "", "")
                     try {
                         question = questionsArray[questionCount]
                     } catch (e: IndexOutOfBoundsException) {
-                        startActivity(API().internetError(requireActivity()))
+                        Transfer().transferForIssue(requireActivity())
                     }
 
                     // Show first question
                     showQuestion(binding, questionsArray[questionCount], questionCount)
 
+                    // Binds onClickListeners to each of the buttons
                     buttons.forEach { it ->
+                        // onClickListeners with a time limit to prevent spam
                         it.onLimitedClick {
                             it as Button
 
+                            // If user won
                             if (questionCount == 49) {
                                 /* Add 1 to questionCount as we want the amount
                                    of questions answered, not the index of the array */
                                 showEndOfGame(binding, true, ++questionCount)
                             } else {
+                                // Checks if the user was right
                                 val isCorrect = it.text == question.rightAnswer
 
+                                // Disables button presses of other buttons
                                 buttons.forEach { button -> button.isEnabled = false }
+                                // Shows visually the right and wrong answers
                                 showAnswers(binding, it, question.rightAnswer, isCorrect)
+
+                                // Reassigns the next question
                                 question = questionsArray[++questionCount]
-
-                                if (!isCorrect) {
-                                    if (fx) {
-                                        val wrongSound =
-                                            MediaPlayer.create(requireContext(), R.raw.wrong)
-                                        wrongSound.setVolume(1.5f, 1.5f)
-                                        wrongSound.start()
-                                    }
-
-                                    --lives
-                                    showLives(binding, lives)
-                                    if (lives == 0) {
-                                        // Minus 3 to questionCount to remove 3 wrong answers
-                                        showEndOfGame(binding, false, questionCount - 3)
-                                    } else {
-                                        newQuestion(binding, buttons, question, questionCount)
-                                    }
-                                } else {
+                                // If user was wrong
+                                if (isCorrect) {
+                                    // Play right answer sound effect
                                     if (fx) {
                                         val rightSound =
                                             MediaPlayer.create(requireContext(), R.raw.right)
@@ -101,14 +115,40 @@ class TriviaFragment : Fragment() {
                                         rightSound.start()
                                     }
 
+                                    // Show new question
                                     newQuestion(binding, buttons, question, questionCount)
+                                } else {
+                                    // Play wrong answer sound effect
+                                    if (fx) {
+                                        val wrongSound =
+                                            MediaPlayer.create(requireContext(), R.raw.wrong)
+                                        wrongSound.setVolume(1.5f, 1.5f)
+                                        wrongSound.start()
+                                    }
+
+                                    // Removes a life
+                                    --lives
+                                    // Updates life indicator
+                                    showLives(binding, lives)
+
+                                    // Checks whether to end the game or show the next question
+                                    if (lives == 0) {
+                                        // Minus 3 to questionCount to remove 3 wrong answers
+                                        showEndOfGame(binding, false, questionCount - 3)
+                                    } else {
+                                        // Shows next question
+                                        newQuestion(binding, buttons, question, questionCount)
+                                    }
                                 }
                             }
                         }
                     }
                 } else {
-                    // Goes back to main and shows a Toast
-                    startActivity(API().internetError(requireActivity()))
+                    /*
+                        Goes back to MainActivity and shows a Toast
+                        in case there are internet connection issues.
+                    */
+                    Transfer().transferForIssue(requireActivity())
                 }
             }
         }
@@ -131,11 +171,19 @@ class TriviaFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Binds the question to the view.
+     *
+     * @param binding access to the fragment's views.
+     * @param question the current question to bind.
+     * @param questionCount how many questions the user has answered.
+     */
     private fun showQuestion(
         binding: FragmentTriviaBinding,
         question: Question,
         questionCount: Int
     ) {
+        // Shuffles the answers
         val answers = arrayOf(
             question.rightAnswer,
             question.wrongAnswer1,
@@ -143,30 +191,49 @@ class TriviaFragment : Fragment() {
             question.wrongAnswer3
         )
         answers.shuffle()
-        binding.txtQuestion.text = question.question
+
+        // Array of buttons
         val buttons = arrayOf(
             binding.btnAnswer1, binding.btnAnswer2, binding.btnAnswer3, binding.btnAnswer4
         )
+        // Binds the answers to the buttons' text
         for (iterator in buttons.indices) {
             buttons[iterator].text = answers[iterator]
         }
+
+        // Updates the question indicator
         "Question ${questionCount + 1}".also { binding.txtQuestionCount.text = it }
+        // Updates the question
+        binding.txtQuestion.text = question.question
     }
 
+    /**
+     * Shows the right and wrong answers visually to the user.
+     *
+     * @param binding access to the fragment's views.
+     * @param button the button that the user pressed.
+     * @param rightAnswer the right answer.
+     * @param userRight is the user right.
+     */
     private fun showAnswers(
         binding: FragmentTriviaBinding,
         button: Button,
         rightAnswer: String,
         userRight: Boolean,
     ) {
+        // Array of buttons
         val buttons = arrayOf(
             binding.btnAnswer1, binding.btnAnswer2, binding.btnAnswer3, binding.btnAnswer4
         )
+
+        // If the user is right, make the button green
         if (userRight) {
             button.setBackgroundResource(R.drawable.game_button_green_pressed)
         } else {
+            // If the user is wrong, make the button red
             button.setBackgroundResource(R.drawable.game_button_red)
 
+            // Finds the right answer within the buttons and delete
             for (buttonElement: Button in buttons) {
                 if (buttonElement.text == rightAnswer) {
                     buttonElement.setBackgroundResource(R.drawable.game_button_green_unpressed)
@@ -175,6 +242,14 @@ class TriviaFragment : Fragment() {
         }
     }
 
+    /**
+     * Binds the new question to the fragment.
+     *
+     * @param binding access to the fragment's views.
+     * @param buttons array of buttons.
+     * @param question the new question to bind.
+     * @param questionCount how many questions the user has answered.
+     */
     private fun newQuestion(
         binding: FragmentTriviaBinding,
         buttons: Array<Button>,
@@ -191,6 +266,13 @@ class TriviaFragment : Fragment() {
         }, 1000)
     }
 
+    /**
+     * Show the end of game screen to the user.
+     *
+     * @param binding access to the fragment's views.
+     * @param win whether the user won or not.
+     * @param score the number of right answers.
+     */
     private fun showEndOfGame(binding: FragmentTriviaBinding, win: Boolean, score: Int) {
         Handler(Looper.getMainLooper()).postDelayed({
             binding.endOfGame.visibility = View.VISIBLE
@@ -208,6 +290,12 @@ class TriviaFragment : Fragment() {
         }, 1000)
     }
 
+    /**
+     * Updates the life indicator.
+     *
+     * @param binding access to the fragment's views.
+     * @param lives the amount of lives left.
+     */
     private fun showLives(binding: FragmentTriviaBinding, lives: Int) = when (lives) {
         2 -> binding.life1.setBackgroundResource(R.drawable.life_circle_lost)
         1 -> binding.life2.setBackgroundResource(R.drawable.life_circle_lost)
