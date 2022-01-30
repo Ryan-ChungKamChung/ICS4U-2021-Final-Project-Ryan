@@ -1,3 +1,9 @@
+/*
+ * Copyright 2022 Ryan Chung Kam Chung
+ *
+ * API class that contains functions related to API requests and parsing.
+ */
+
 package com.ryan.trivia_app.model
 
 import android.os.Build
@@ -78,6 +84,7 @@ class API {
      */
     private fun categoryIsValid(id: Int): Boolean? {
         val json = request("https://opentdb.com/api_count.php?category=$id")
+        // Need 50 questions for a full game
         return if (json != null) {
             JSONObject(json).getJSONObject("category_question_count")
                 .getInt("total_question_count") >= 50

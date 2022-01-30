@@ -1,3 +1,10 @@
+/*
+ * Copyright 2022 Ryan Chung Kam Chung
+ *
+ * Fragment that is attached to MainActivity by default, and the user can decide to start a game,
+ * change settings and look at the leaderboard.
+ */
+
 package com.ryan.trivia_app.view
 
 import android.content.Intent

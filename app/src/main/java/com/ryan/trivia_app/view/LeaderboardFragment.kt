@@ -1,3 +1,10 @@
+/*
+ * Copyright 2022 Ryan Chung Kam Chung
+ *
+ * Fragment that is attached to MainActivity when btnLeaderboard is clicked in MenuFragment.
+ * Displays the local leaderboard.
+ */
+
 package com.ryan.trivia_app.view
 
 import android.os.Bundle

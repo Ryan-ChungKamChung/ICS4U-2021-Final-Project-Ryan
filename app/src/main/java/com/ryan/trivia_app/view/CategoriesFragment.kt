@@ -1,3 +1,10 @@
+/*
+ * Copyright 2022 Ryan Chung Kam Chung
+ *
+ * Fragment that is attached to GameActivity pre-game, where the user gets to choose a category
+ * inside the trivia API.
+ */
+
 package com.ryan.trivia_app.view
 
 import android.app.Activity

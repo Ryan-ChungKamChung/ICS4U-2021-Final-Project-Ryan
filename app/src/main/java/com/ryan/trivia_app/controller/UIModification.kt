@@ -1,9 +1,21 @@
+/*
+ * Copyright 2022 Ryan Chung Kam Chung
+ *
+ * Class that handles UI modifications.
+ */
+
 package com.ryan.trivia_app.controller
 
 import android.view.View
 import android.view.Window
 
+/** UI Modifications app-wide. */
 class UIModification {
+    /**
+     * Makes the app fullscreen.
+     *
+     * @param window the app window.
+     */
     @Suppress("DEPRECATION")
     fun fullScreen(window: Window) {
         // Removes top and bottom system bars

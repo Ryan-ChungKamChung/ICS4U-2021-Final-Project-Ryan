@@ -1,3 +1,10 @@
+/*
+ * Copyright 2022 Ryan Chung Kam Chung
+ *
+ * Fragment that is attached to MainActivity when btnSettings is clicked in MenuFragment.
+ * Displays settings and credits.
+ */
+
 package com.ryan.trivia_app.view
 
 import android.os.Bundle

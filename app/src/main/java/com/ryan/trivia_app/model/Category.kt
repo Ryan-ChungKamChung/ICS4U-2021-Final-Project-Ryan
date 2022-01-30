@@ -1,3 +1,9 @@
+/*
+ * Copyright 2022 Ryan Chung Kam Chung
+ *
+ * Data class that holds relevant information about trivia categories.
+ */
+
 package com.ryan.trivia_app.model
 
 import android.os.Parcelable

@@ -1,3 +1,10 @@
+/*
+ * Copyright 2022 Ryan Chung Kam Chung
+ *
+ * Fragment that is attached to GameActivity during the game loop.
+ * The game is played in this fragment.
+ */
+
 package com.ryan.trivia_app.view
 
 import android.content.Intent

@@ -1,9 +1,20 @@
+/*
+ * Copyright 2022 Ryan Chung Kam Chung
+ *
+ * Class to prevent repeated clicks from the user.
+ */
+
 package com.ryan.trivia_app.controller
 
 import android.os.SystemClock
 import android.view.View
 import android.widget.Button
 
+/**
+ * Class to prevent repeated clicks from the user.
+ *
+ * @property onLimitedClick transmitted onClick.
+ */
 class OnLimitedClick(
     private val onLimitedClick: (View) -> Unit
 ) : View.OnClickListener {
@@ -20,5 +31,10 @@ class OnLimitedClick(
     }
 }
 
+/**
+ * Lambda extension for onLimitedClick.
+ *
+ * @param onLimitedClick click limiter.
+ */
 fun Button.onLimitedClick(onLimitedClick: (View) -> Unit) =
     setOnClickListener(OnLimitedClick { onLimitedClick(it) })

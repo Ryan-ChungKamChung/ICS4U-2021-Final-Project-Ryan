@@ -1,3 +1,9 @@
+/*
+ * Copyright 2022 Ryan Chung Kam Chung
+ *
+ * Class containing functions related to transferring to different fragments and activities.
+ */
+
 package com.ryan.trivia_app.controller
 
 import android.app.Activity
