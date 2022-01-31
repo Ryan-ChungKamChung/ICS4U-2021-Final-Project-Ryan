@@ -11,7 +11,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ryan.trivia_app.R
 import com.ryan.trivia_app.controller.Transfer
-import com.ryan.trivia_app.controller.UIModification
+import com.ryan.trivia_app.controller.UIController
 import com.ryan.trivia_app.databinding.ActivityGameBinding
 
 
@@ -39,7 +39,7 @@ class GameActivity : AppCompatActivity() {
         super.onResume()
 
         // Makes the app fullscreen (No system bars)
-        UIModification().fullScreen(window)
+        UIController().fullScreen(window)
     }
 
     override fun onBackPressed() {

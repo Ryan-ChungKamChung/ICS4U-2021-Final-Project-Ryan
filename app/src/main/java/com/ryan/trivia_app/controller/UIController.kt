@@ -10,7 +10,7 @@ import android.view.View
 import android.view.Window
 
 /** UI Modifications app-wide. */
-class UIModification {
+class UIController {
     /**
      * Makes the app fullscreen.
      *

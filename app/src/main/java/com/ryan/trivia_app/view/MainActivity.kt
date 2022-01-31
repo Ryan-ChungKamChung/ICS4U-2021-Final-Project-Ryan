@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.ryan.trivia_app.R
 import com.ryan.trivia_app.controller.Transfer
-import com.ryan.trivia_app.controller.UIModification
+import com.ryan.trivia_app.controller.UIController
 import com.ryan.trivia_app.databinding.ActivityMainBinding
 
 /** MainActivity class. All menus will run on top of this activity. */
@@ -48,6 +48,6 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         // Makes the app fullscreen (No system bars)
-        UIModification().fullScreen(window)
+        UIController().fullScreen(window)
     }
 }

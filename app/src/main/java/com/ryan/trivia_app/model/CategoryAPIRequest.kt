@@ -50,35 +50,24 @@ class CategoryAPIRequest(private val url: String) :
             // Name of category
             val name = (jsonArray[iterator] as JSONObject).getString("name")
             // Adds id and name
-            allCategories.add(
-                Category(
-                    (jsonArray[iterator] as JSONObject).getInt("id"),
-                    // Filters unnecessary substrings
-                    when {
-                        name.startsWith("Entertainment: Japanese ") -> name.drop(24)
-                        name.startsWith("Entertainment: ") -> name.drop(15)
-                        else -> name
-                    }
+            if (categoryIsValid((jsonArray[iterator] as JSONObject).getInt("id")) == true) {
+                allCategories.add(
+                    Category(
+                        (jsonArray[iterator] as JSONObject).getInt("id"),
+                        // Filters unnecessary substrings
+                        when {
+                            name.startsWith("Entertainment: Japanese ") -> name.drop(24)
+                            name.startsWith("Entertainment: ") -> name.drop(15)
+                            else -> name
+                        }
+                    )
                 )
-            )
+            }
         }
 
         // Random unique numbers
         val randomList = (0 until allCategories.size).shuffled().take(4)
-        for (randNum: Int in randomList) {
-            while (true) {
-                val categoryID = allCategories[randNum].id
-                // If it's a valid category
-                if (categoryIsValid(categoryID) == true) {
-                    // Add it to the usedCategories array to be sent back
-                    usedCategories.add(allCategories[randNum])
-                    break
-                } else {
-                    // Test the next category if it isn't valid
-                    categoryID + 1
-                }
-            }
-        }
+        for (randNum: Int in randomList) { usedCategories.add(allCategories[randNum]) }
 
         return usedCategories
     }
