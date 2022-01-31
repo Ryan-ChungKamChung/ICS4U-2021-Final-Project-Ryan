@@ -70,7 +70,6 @@ class LeaderboardFragment : Fragment() {
         } catch (e: JSONException) {
             null
         }
-        println(jsonLeaderboard)
         // Leaderboard of nulls
         val leaderboard = arrayOfNulls<String>(10)
         // Populate leaderboard with leaderboard in persistent memory

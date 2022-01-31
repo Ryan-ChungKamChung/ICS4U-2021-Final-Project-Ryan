@@ -63,10 +63,8 @@ class TriviaFragment : Fragment() {
             )
             // Array of buttons
             val buttons = arrayOf(
-                binding.btnAnswer1,
-                binding.btnAnswer2,
-                binding.btnAnswer3,
-                binding.btnAnswer4
+                binding.btnAnswer1, binding.btnAnswer2,
+                binding.btnAnswer3, binding.btnAnswer4
             )
             // UI thread
             requireActivity().runOnUiThread {
@@ -356,8 +354,5 @@ class TriviaFragment : Fragment() {
         val edit = prefLeaderboard.edit()
         edit.putString("jsonLeaderboard", JSONArray(leaderboard).toString())
         edit.apply()
-
-        println(leaderboard)
-        println(score)
     }
 }
