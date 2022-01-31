@@ -9,18 +9,15 @@ package com.ryan.trivia_app.view
 
 import android.app.Activity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import com.ryan.trivia_app.R
+import com.ryan.trivia_app.controller.CategoriesController
 import com.ryan.trivia_app.controller.Transfer
 import com.ryan.trivia_app.databinding.FragmentCategoriesBinding
 import com.ryan.trivia_app.model.CategoryAPIRequest
-import com.ryan.trivia_app.model.Category
 
 /** CategoriesFragment class, the user gets to choose a category inside the trivia API. */
 class CategoriesFragment : Fragment() {
@@ -56,68 +53,29 @@ class CategoriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Array of buttons
         val buttons = arrayOf(
             binding.btnChoice1, binding.btnChoice2,
             binding.btnChoice3, binding.btnChoice4
         )
-
+        // Array of categories
         val categories = CategoryAPIRequest("https://opentdb.com/api_category.php")
             .execute()
             .get()
+        // Controller
+        val categoriesController = CategoriesController(parentFragmentManager, buttons, categories)
 
         if (categories != null) {
             // Binds text to buttons
-            for (iterator in buttons.indices) {
-                buttons[iterator].text = categories[iterator].name
-            }
-
-            /*
-                Make sure the app doesn't crash if the user
-                spams the button and the transfer process has started.
-            */
-            var transferred = false
-            // setOnClickListener for each of the buttons
-            for (iterator in buttons.indices) {
-                buttons[iterator].setOnClickListener {
-                    // Transitions to TriviaFragment with the chosen category being passed
-                    if (!transferred) {
-                        toGame(it as Button, categories[iterator])
-                    }
-                    transferred = true
-                }
-            }
+            categoriesController.bindToView()
+            categoriesController.setOnClickListeners()
         } else {
             /*
-                   Goes back to MainActivity and shows a Toast
-                   in case there are internet connection issues.
-                */
+               Goes back to MainActivity and shows a Toast
+               in case there are internet connection issues.
+            */
             Transfer().transferForIssue(requireActivity())
             (context as Activity).overridePendingTransition(0, 0)
         }
-    }
-
-    /**
-     * Initiates a transition and replaces the fragment by TriviaFragment.
-     *
-     * @param button the button that was clicked by the user.
-     */
-    private fun toGame(button: Button, category: Category) {
-        // Sets chosen button to green
-        button.setBackgroundResource(R.drawable.game_button_green_pressed)
-
-        // Executes this code 1 second after the button was set to green
-        Handler(Looper.getMainLooper()).postDelayed({
-            // Adds the chosen category to the bundle to be sent to TriviaFragment
-            val args = Bundle()
-            args.putParcelable("category", category)
-
-            val triviaFragment = TriviaFragment()
-            triviaFragment.arguments = args
-
-            // Replaces this fragment with TriviaFragment
-            Transfer().transferToFragment(
-                parentFragmentManager, R.id.fragmentPlaceholder, triviaFragment
-            )
-        }, 1000)
     }
 }

@@ -12,9 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
-import com.ryan.trivia_app.R
-import com.ryan.trivia_app.controller.Transfer
+import com.ryan.trivia_app.controller.SettingsController
 import com.ryan.trivia_app.databinding.FragmentSettingsBinding
 
 /** SettingsFragment class, where the settings and credits are located inside MainActivity. */
@@ -34,49 +32,23 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // FX setting in persistent storage
-        val settings = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        var fx = settings.getBoolean("fx", true)
-        bindToFXButton(binding, fx)
-
-        // FX toggle button
-        binding.btnFX.setOnClickListener {
-            // fx becomes the opposite of its initial state. Ex: True -> False
-            fx = !fx
-            // Reflect the changes on the button
-            bindToFXButton(binding, fx)
-
-            // Updates the persistent storage to remember the user's choice
-            val edit = settings.edit()
-            edit.putBoolean("fx", fx)
-            edit.apply()
-        }
+        // Controller
+        val settingsController = SettingsController(requireContext(), binding)
+        // Binds button state to View
+        settingsController.bindToFXButton()
+        // Sets onClickListener
+        settingsController.setOnBtnFXClickListener()
 
         // Opens up the user's default browser, displays the API used for this app
-        binding.btnAPI.setOnClickListener {
-            Transfer().transferToBrowser(requireActivity(), "https://opentdb.com/")
-        }
+        settingsController.openBrowserOnClick(requireActivity(), "https://opentdb.com/")
 
         // Opens up the user's default browser, used API's license
-        binding.btnLicense.setOnClickListener {
-            Transfer().transferToBrowser(
-                requireActivity(), "https://creativecommons.org/licenses/by-sa/4.0/"
-            )
-        }
+        settingsController.openBrowserOnClick(
+            requireActivity(), "https://creativecommons.org/licenses/by-sa/4.0/"
+        )
 
         // Transfers back to MenuFragment
-        binding.btnBack.setOnClickListener {
-            Transfer().transferToFragment(
-                parentFragmentManager, R.id.fragmentPlaceholder, MenuFragment()
-            )
-        }
-    }
-
-    private fun bindToFXButton(binding: FragmentSettingsBinding, fx: Boolean) {
-        binding.btnFX.text = if (fx) "ON" else "OFF"
-        binding.btnFX.setBackgroundResource(
-            if (fx) R.drawable.fx_button_green else R.drawable.fx_button_red
-        )
+        settingsController.onBackPressListener(parentFragmentManager)
     }
 
     /**

@@ -68,7 +68,7 @@ class MenuFragment : Fragment() {
         binding.btnSettings.setOnClickListener {
             Transfer().transferToFragment(
                 parentFragmentManager, R.id.fragmentPlaceholder,
-                SettingsFragment(), Pair(true, "leaderboard")
+                SettingsFragment(), Pair(true, "settings")
             )
         }
     }
