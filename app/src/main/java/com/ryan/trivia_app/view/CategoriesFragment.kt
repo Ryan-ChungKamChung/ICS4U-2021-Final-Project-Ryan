@@ -19,9 +19,8 @@ import androidx.fragment.app.Fragment
 import com.ryan.trivia_app.R
 import com.ryan.trivia_app.controller.Transfer
 import com.ryan.trivia_app.databinding.FragmentCategoriesBinding
-import com.ryan.trivia_app.model.API
+import com.ryan.trivia_app.model.CategoryAPIRequest
 import com.ryan.trivia_app.model.Category
-import kotlin.concurrent.thread
 
 /** CategoriesFragment class, the user gets to choose a category inside the trivia API. */
 class CategoriesFragment : Fragment() {
@@ -56,51 +55,44 @@ class CategoriesFragment : Fragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // API call in background thread
-        thread {
-            // API call
-            val json = API().request("https://opentdb.com/api_category.php")
-            val buttons = arrayOf(
-                binding.btnChoice1, binding.btnChoice2,
-                binding.btnChoice3, binding.btnChoice4
-            )
-            println(json)
-            // Makes sure the app doesn't crash due to missing internet connection or parsing issues
-            if (json != null) {
-                // Returned categories from the API call
-                val categories = API().parseCategories(json)
-                println(categories)
-                // UI thread
-                requireActivity().runOnUiThread {
-                    // Binds text to buttons
-                    for (iterator in buttons.indices) {
-                        buttons[iterator].text = categories[iterator].name
-                    }
 
-                    /*
-                        Make sure the app doesn't crash if the user
-                        spams the button and the transfer process has started.
-                     */
-                    var transferred = false
-                    // setOnClickListener for each of the buttons
-                    for (iterator in buttons.indices) {
-                        buttons[iterator].setOnClickListener {
-                            // Transitions to TriviaFragment with the chosen category being passed
-                            if (!transferred) {
-                                toGame(it as Button, categories[iterator])
-                            }
-                            transferred = true
-                        }
-                    }
-                }
-            } else {
-                /*
-                    Goes back to MainActivity and shows a Toast
-                    in case there are internet connection issues.
-                 */
-                Transfer().transferForIssue(requireActivity())
-                (context as Activity).overridePendingTransition(0, 0)
+        val buttons = arrayOf(
+            binding.btnChoice1, binding.btnChoice2,
+            binding.btnChoice3, binding.btnChoice4
+        )
+
+        val categories = CategoryAPIRequest("https://opentdb.com/api_category.php")
+            .execute()
+            .get()
+
+        if (categories != null) {
+            // Binds text to buttons
+            for (iterator in buttons.indices) {
+                buttons[iterator].text = categories[iterator].name
             }
+
+            /*
+                Make sure the app doesn't crash if the user
+                spams the button and the transfer process has started.
+            */
+            var transferred = false
+            // setOnClickListener for each of the buttons
+            for (iterator in buttons.indices) {
+                buttons[iterator].setOnClickListener {
+                    // Transitions to TriviaFragment with the chosen category being passed
+                    if (!transferred) {
+                        toGame(it as Button, categories[iterator])
+                    }
+                    transferred = true
+                }
+            }
+        } else {
+            /*
+                   Goes back to MainActivity and shows a Toast
+                   in case there are internet connection issues.
+                */
+            Transfer().transferForIssue(requireActivity())
+            (context as Activity).overridePendingTransition(0, 0)
         }
     }
 
