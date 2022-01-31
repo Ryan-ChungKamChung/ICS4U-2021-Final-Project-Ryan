@@ -6,12 +6,14 @@
 
 package com.ryan.trivia_app.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ryan.trivia_app.R
 import com.ryan.trivia_app.controller.Transfer
 import com.ryan.trivia_app.controller.UIModification
 import com.ryan.trivia_app.databinding.ActivityGameBinding
+
 
 /** GameActivity class. All game content will run on top of this activity. */
 class GameActivity : AppCompatActivity() {
@@ -38,5 +40,11 @@ class GameActivity : AppCompatActivity() {
 
         // Makes the app fullscreen (No system bars)
         UIModification().fullScreen(window)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }

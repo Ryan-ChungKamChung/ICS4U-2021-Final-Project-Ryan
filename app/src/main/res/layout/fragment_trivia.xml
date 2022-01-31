@@ -57,7 +57,12 @@
             style="@style/question_text"
             android:layout_marginBottom="15dp"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeStepGranularity="2sp"
+            android:textStyle="bold"
+            tools:targetApi="o" />
 
         <TextView
             android:id="@+id/txtQuestion"

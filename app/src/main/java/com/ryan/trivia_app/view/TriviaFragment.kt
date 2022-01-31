@@ -12,12 +12,12 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
 import com.ryan.trivia_app.R
 import com.ryan.trivia_app.controller.Transfer
 import com.ryan.trivia_app.controller.onLimitedClick
@@ -345,7 +345,7 @@ class TriviaFragment : Fragment() {
 
         // Sorts and removes any extra entries so the size of the leaderboard doesn't exceed 10
         leaderboard.add(score)
-        leaderboard.sort()
+        leaderboard.sortDescending()
         if (leaderboard.size > 10) {
             leaderboard.remove(11)
         }
