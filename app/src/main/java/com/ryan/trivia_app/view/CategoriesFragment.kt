@@ -58,23 +58,20 @@ class CategoriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         // API call in background thread
         thread {
-            // API class
-            val api = API()
             // API call
-            val json = api.request("https://opentdb.com/api_category.php")
-            // TODO fix threading issue
+            val json = API().request("https://opentdb.com/api_category.php")
+            val buttons = arrayOf(
+                binding.btnChoice1, binding.btnChoice2,
+                binding.btnChoice3, binding.btnChoice4
+            )
             println(json)
             // Makes sure the app doesn't crash due to missing internet connection or parsing issues
             if (json != null) {
-                val buttons = arrayOf(
-                    binding.btnChoice1, binding.btnChoice2,
-                    binding.btnChoice3, binding.btnChoice4
-                )
+                // Returned categories from the API call
+                val categories = API().parseCategories(json)
+                println(categories)
                 // UI thread
                 requireActivity().runOnUiThread {
-                    // Returned categories from the API call
-                    val categories = api.parseCategories(json)
-                    println(categories)
                     // Binds text to buttons
                     for (iterator in buttons.indices) {
                         buttons[iterator].text = categories[iterator].name
