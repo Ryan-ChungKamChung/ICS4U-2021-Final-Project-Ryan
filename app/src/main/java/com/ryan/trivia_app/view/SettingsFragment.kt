@@ -40,11 +40,13 @@ class SettingsFragment : Fragment() {
         settingsController.setOnBtnFXClickListener()
 
         // Opens up the user's default browser, displays the API used for this app
-        settingsController.openBrowserOnClick(requireActivity(), "https://opentdb.com/")
+        settingsController.openBrowserOnClick(
+            binding.btnAPI, requireActivity(), "https://opentdb.com/"
+        )
 
         // Opens up the user's default browser, used API's license
         settingsController.openBrowserOnClick(
-            requireActivity(), "https://creativecommons.org/licenses/by-sa/4.0/"
+            binding.btnLicense, requireActivity(), "https://creativecommons.org/licenses/by-sa/4.0/"
         )
 
         // Transfers back to MenuFragment

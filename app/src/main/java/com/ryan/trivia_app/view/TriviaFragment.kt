@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ryan.trivia_app.controller.Transfer
 import com.ryan.trivia_app.databinding.FragmentTriviaBinding
 import com.ryan.trivia_app.model.Category
 import com.ryan.trivia_app.model.TriviaAPIRequest

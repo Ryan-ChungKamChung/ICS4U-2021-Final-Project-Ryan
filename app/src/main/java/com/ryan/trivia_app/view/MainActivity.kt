@@ -42,8 +42,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    /** When the app is refocused. Deprecated but works as intended. */
-    @Suppress("DEPRECATION")
+    /** When the app is resumed. */
     override fun onResume() {
         super.onResume()
 

@@ -24,6 +24,12 @@ class LeaderboardFragment : Fragment() {
     /** Binding getter. */
     private val binding get() = _binding!!
 
+    /**
+     * When the View is created.
+     *
+     * @param view Fragment View.
+     * @param savedInstanceState saved instance state.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

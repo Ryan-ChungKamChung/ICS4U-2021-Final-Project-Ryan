@@ -42,6 +42,7 @@ class GameActivity : AppCompatActivity() {
         UIController().fullScreen(window)
     }
 
+    /** On backpress, go back to MainActivity. */
     override fun onBackPressed() {
         super.onBackPressed()
         startActivity(Intent(this, MainActivity::class.java))

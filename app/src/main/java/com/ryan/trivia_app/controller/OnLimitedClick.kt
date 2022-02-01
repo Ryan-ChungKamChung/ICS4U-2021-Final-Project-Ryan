@@ -19,9 +19,17 @@ class OnLimitedClick(
     private val onLimitedClick: (View) -> Unit
 ) : View.OnClickListener {
 
+    // One second interval of allowed clicks
     private var interval = 1000
+
+    // Last proper click
     private var lastClick: Long = 0
 
+    /**
+     * onClickListener with delay
+     *
+     * @param button clicked button
+     */
     override fun onClick(button: View) {
         if (interval > SystemClock.elapsedRealtime() - lastClick) {
             return

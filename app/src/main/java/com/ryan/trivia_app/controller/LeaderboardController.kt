@@ -1,3 +1,9 @@
+/*
+ * Copyright 2022 Ryan Chung Kam Chung
+ *
+ * This is the controller for LeaderboardFragment.
+ */
+
 package com.ryan.trivia_app.controller
 
 import android.app.Activity
@@ -7,6 +13,12 @@ import com.ryan.trivia_app.databinding.FragmentLeaderboardBinding
 import org.json.JSONArray
 import org.json.JSONException
 
+/**
+ * Controller for LeaderboardFragment.
+ *
+ * @property activity the activity LeaderboardFragment came from.
+ * @property binding the binding that allows access to XML components.
+ */
 class LeaderboardController(
     private val activity: Activity,
     private val binding: FragmentLeaderboardBinding

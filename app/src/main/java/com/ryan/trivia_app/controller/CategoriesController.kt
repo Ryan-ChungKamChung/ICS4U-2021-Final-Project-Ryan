@@ -18,9 +18,9 @@ import com.ryan.trivia_app.view.TriviaFragment
 /**
  * Controller for CategoriesFragment.
  *
- * @property fragmentManager
- * @property buttons
- * @property categories
+ * @property fragmentManager fragmentManager to transfer fragments.
+ * @property buttons array of buttons.
+ * @property categories array of categories.
  */
 class CategoriesController(
     private val fragmentManager: FragmentManager,
