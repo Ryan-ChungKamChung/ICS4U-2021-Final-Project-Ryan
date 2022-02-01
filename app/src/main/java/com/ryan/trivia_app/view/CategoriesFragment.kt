@@ -7,14 +7,11 @@
 
 package com.ryan.trivia_app.view
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ryan.trivia_app.controller.CategoriesController
-import com.ryan.trivia_app.controller.Transfer
 import com.ryan.trivia_app.databinding.FragmentCategoriesBinding
 import com.ryan.trivia_app.model.CategoryAPIRequest
 
@@ -57,24 +54,8 @@ class CategoriesFragment : Fragment() {
             binding.btnChoice1, binding.btnChoice2,
             binding.btnChoice3, binding.btnChoice4
         )
-        // Array of categories
-        val categories = CategoryAPIRequest("https://opentdb.com/api_category.php")
-            .execute()
-            .get()
-        // Controller
-        val categoriesController = CategoriesController(parentFragmentManager, buttons, categories)
 
-        if (categories != null) {
-            // Binds text to buttons
-            categoriesController.bindToView()
-            categoriesController.setOnClickListeners()
-        } else {
-            /*
-               Goes back to MainActivity and shows a Toast
-               in case there are internet connection issues.
-            */
-            Transfer().transferForIssue(requireActivity())
-            (context as Activity).overridePendingTransition(0, 0)
-        }
+        CategoryAPIRequest("https://opentdb.com/api_category.php")
+            .apiRequest(parentFragmentManager, buttons, requireActivity())
     }
 }

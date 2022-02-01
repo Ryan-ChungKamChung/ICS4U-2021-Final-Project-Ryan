@@ -6,8 +6,15 @@
 
 package com.ryan.trivia_app.model
 
-import android.os.AsyncTask
+import android.app.Activity
+import android.os.Handler
+import android.os.Looper
+import android.widget.Button
+import androidx.fragment.app.FragmentManager
+import com.ryan.trivia_app.controller.CategoriesController
+import com.ryan.trivia_app.controller.Transfer
 import java.net.URL
+import java.util.concurrent.Executors
 import org.json.JSONObject
 
 /**
@@ -15,22 +22,40 @@ import org.json.JSONObject
  *
  * @property url
  */
-class CategoryAPIRequest(private val url: String) :
-    AsyncTask<String, Void, ArrayList<Category>?>() {
+class CategoryAPIRequest(private val url: String) {
 
     /**
      * Get request to a URL.
      *
      * @return JSON as String or null
      */
-    override fun doInBackground(vararg p0: String): ArrayList<Category>? =
-        try {
-            parseCategories(URL(url).readText())
-        } catch (e: Exception) {
-            null
-        }
+    fun apiRequest(fragmentManager: FragmentManager, buttons: Array<Button>, activity: Activity) {
+        Executors.newSingleThreadExecutor().execute {
+            val categories = try {
+                parseCategories(URL(url).readText())
+            } catch (e: Exception) {
+                null
+            }
 
-    override fun onPostExecute(result: ArrayList<Category>?) {}
+            Handler(Looper.getMainLooper()).post {
+                // Controller
+                val categoriesController = CategoriesController(fragmentManager, buttons, categories)
+
+                if (categories != null) {
+                    // Binds text to buttons
+                    categoriesController.bindToView()
+                    categoriesController.setOnClickListeners()
+                } else {
+                    /*
+                       Goes back to MainActivity and shows a Toast
+                       in case there are internet connection issues.
+                    */
+                    Transfer().transferForIssue(activity)
+                    activity.overridePendingTransition(0, 0)
+                }
+            }
+        }
+    }
 
     /**
      * Parses categories API response.
