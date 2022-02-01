@@ -3,6 +3,8 @@ package com.ryan.trivia_app.controller
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.preference.PreferenceManager
@@ -10,8 +12,11 @@ import android.view.View
 import android.widget.Button
 import com.ryan.trivia_app.R
 import com.ryan.trivia_app.databinding.FragmentTriviaBinding
+import com.ryan.trivia_app.model.Category
 import com.ryan.trivia_app.model.Question
+import com.ryan.trivia_app.model.TriviaAPIRequest
 import com.ryan.trivia_app.view.MainActivity
+import kotlin.concurrent.thread
 import org.json.JSONArray
 import org.json.JSONException
 
@@ -20,6 +25,20 @@ class TriviaController(
     private val activity: Activity,
     private val context: Context
 ) {
+    fun userIsCorrect(buttonText: String, rightAnswer: String): Boolean = buttonText == rightAnswer
+
+    fun playSoundEffect(fx: Boolean, sound: Int, context: Context) {
+        if (fx) {
+            thread {
+                val soundEffect =
+                    MediaPlayer.create(context, sound)
+                soundEffect.setVolume(1.5f, 1.5f)
+                soundEffect.start()
+                soundEffect.release()
+            }
+        }
+    }
+
     /**
      * Binds the question to the view.
      *

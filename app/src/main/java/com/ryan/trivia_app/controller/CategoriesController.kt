@@ -1,3 +1,9 @@
+/*
+ * Copyright 2022 Ryan Chung Kam Chung
+ *
+ * This is the controller for CategoriesFragment.
+ */
+
 package com.ryan.trivia_app.controller
 
 import android.os.Bundle
@@ -57,6 +63,7 @@ class CategoriesController(
      * Initiates a transition and replaces the fragment by TriviaFragment.
      *
      * @param button the button that was clicked by the user.
+     * @param category the category to be sent to TriviaFragment.
      */
     private fun toGame(button: Button, category: Category) {
         // Sets chosen button to green
