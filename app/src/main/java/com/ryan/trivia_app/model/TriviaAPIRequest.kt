@@ -8,7 +8,10 @@ package com.ryan.trivia_app.model
 
 import android.app.Activity
 import android.content.Context
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.preference.PreferenceManager
 import android.text.Html
 import android.widget.Button
@@ -18,7 +21,6 @@ import com.ryan.trivia_app.controller.TriviaController
 import com.ryan.trivia_app.controller.onLimitedClick
 import com.ryan.trivia_app.databinding.FragmentTriviaBinding
 import java.net.URL
-import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import org.json.JSONObject
 

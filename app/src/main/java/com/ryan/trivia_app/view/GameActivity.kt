@@ -14,7 +14,6 @@ import com.ryan.trivia_app.controller.Transfer
 import com.ryan.trivia_app.controller.UIController
 import com.ryan.trivia_app.databinding.ActivityGameBinding
 
-
 /** GameActivity class. All game content will run on top of this activity. */
 class GameActivity : AppCompatActivity() {
     /**
