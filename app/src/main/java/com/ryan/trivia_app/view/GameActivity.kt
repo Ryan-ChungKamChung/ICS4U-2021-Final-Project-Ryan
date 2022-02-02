@@ -24,6 +24,7 @@ class GameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityGameBinding.inflate(layoutInflater)
+        setTheme(R.style.app)
         setContentView(binding.root)
 
         // Replaces placeholder FrameLayout with CategoriesFragment
