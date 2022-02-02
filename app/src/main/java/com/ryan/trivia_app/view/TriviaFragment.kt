@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.ryan.trivia_app.controller.Transfer
 import com.ryan.trivia_app.databinding.FragmentTriviaBinding
 import com.ryan.trivia_app.model.Category
 import com.ryan.trivia_app.model.TriviaAPIRequest
@@ -45,7 +46,7 @@ class TriviaFragment : Fragment() {
                 "https://opentdb.com/api.php?amount=50&category=" + category.id + "&type=multiple"
             ).apiRequest(requireArguments(), buttons, requireActivity(), binding, requireContext())
         } else {
-//            Transfer().transferForIssue(requireActivity())
+            Transfer().transferForIssue(requireActivity())
         }
     }
 

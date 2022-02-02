@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.Triviaapp" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="app" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -18,7 +18,9 @@
         <item name="android:windowBackground">@color/main_background</item>
         <item name="android:fontFamily">@font/reem_kufi</item>
     </style>
-
+    <style name="SplashTheme" parent="app">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
     <style name="header">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

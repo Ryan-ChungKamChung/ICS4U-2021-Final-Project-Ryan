@@ -75,7 +75,7 @@ class CategoryAPIRequest(private val url: String) {
             // Name of category
             val name = (jsonArray[iterator] as JSONObject).getString("name")
             // Adds id and name
-            if (categoryIsValid((jsonArray[iterator] as JSONObject).getInt("id")) == true) {
+            if (categoryIsValid((jsonArray[iterator] as JSONObject).getInt("id"))) {
                 allCategories.add(
                     Category(
                         (jsonArray[iterator] as JSONObject).getInt("id"),
@@ -103,14 +103,15 @@ class CategoryAPIRequest(private val url: String) {
      * @param id the category ID
      * @return returns if it's valid, or null if there is an internet error
      */
-    private fun categoryIsValid(id: Int): Boolean? {
-        val json = API().request("https://opentdb.com/api_count.php?category=$id")
+    private fun categoryIsValid(id: Int): Boolean {
+        val json = API().request(
+            "https://opentdb.com/api.php?amount=50&category=$id&type=multiple"
+        )
         // Need 50 questions for a full game
         return if (json != null) {
-            JSONObject(json).getJSONObject("category_question_count")
-                .getInt("total_question_count") >= 50
+            JSONObject(json).getInt("response_code") == 0
         } else {
-            null
+            false
         }
     }
 }
